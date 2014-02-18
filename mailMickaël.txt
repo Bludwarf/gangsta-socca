@@ -1,0 +1,13 @@
+Capmalo : 02 99 13 31 33
+
+
+Rappel Doodle : http://doodle.com/uvbbrna677dfbw7e 
+
+
+
+Site utilisé pour tirage :
+http://www.dcode.fr/tirage-au-sort-nombre-aleatoire
+Nombre compris entre 1 et 15
+Nombre d’éléments à tirer : 3 (les remplaçants)
+Sans remise
+	L’ordre initial correspond à celui du doodle

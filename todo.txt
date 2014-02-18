@@ -1,0 +1,5 @@
+TODO
+	- Afficher la date de la génération dans prochainMatch.txt
+	- Page HTML à la place de prochainMatch.txt :
+		- Créer une page HTML avec un mailto:
+		- Aller chercher les photos de chaque joueur pour la page HTML

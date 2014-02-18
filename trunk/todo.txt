@@ -3,3 +3,4 @@ TODO
 	- Page HTML à la place de prochainMatch.txt :
 		- Créer une page HTML avec un mailto:
 		- Aller chercher les photos de chaque joueur pour la page HTML
+	- Intégrer les informations du fichier mailMickaël.txt

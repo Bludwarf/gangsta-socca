@@ -4,25 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.configuration.plist.ParseException;
 import org.apache.commons.io.IOUtils;
 
-import fr.bludwarf.commons.StringBuilder;
 import fr.bludwarf.commons.StringUtils;
 import fr.bludwarf.commons.formatters.MapFormatter;
-import fr.bludwarf.commons.io.FileUtils;
 import fr.bludwarf.commons.web.WebConnector;
 import fr.bludwarf.gangstasocca.json.DoodleJSONParser;
+import fr.bludwarf.gangstasocca.output.MatchWriter;
 
 public class DoodleConnector extends WebConnector
 {
@@ -31,7 +25,7 @@ public class DoodleConnector extends WebConnector
 	protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 			.getLogger(DoodleConnector.class);
 	public static String URL = "http://www.doodle.com/uvbbrna677dfbw7e";
-	public static DateFormat DF = DoodleJSONParser.DF_OUT;
+	public static String EMAIL_ORGANISATEUR = "mathieu.lavigne@capgemini.com";
 	
 	public static MapFormatter<Sandwich, Integer> DWICH_FORMATTER = new MapFormatter<Sandwich, Integer>() {
 
@@ -43,6 +37,7 @@ public class DoodleConnector extends WebConnector
 	
 	private URL _url;
 	private DoodleJSONParser _parser;
+	private Match _prochainMatch;
 
 	public DoodleConnector() throws MalformedURLException
 	{
@@ -86,88 +81,33 @@ public class DoodleConnector extends WebConnector
 		}
 	}
 	
-	public SortedSet<Joueur> getJoueurs(final Date date) throws IOException, ParseException 
-	{
-		final List<String> pseudosEtDwiches = getParser()
-				.getParticipants(date);
-		
-		// On doit séparer les pseudos des dwiches
-		List<String> pseudos = new ArrayList<String>();
-		List<String> dwiches = new ArrayList<String>();
-		for (final String pseudoEtDwich : pseudosEtDwiches)
-		{
-			// Avec dwich ?
-			if (pseudoEtDwich.contains("("))
-			{
-				final Pattern p = Pattern.compile("(.+?)\\s*\\((.+)\\)");
-				final Matcher m = p.matcher(pseudoEtDwich);
-				if (m.matches())
-				{
-					final String pseudo = m.group(1);
-					pseudos.add(pseudo);
-					final String dwich  = m.group(2);
-					dwiches.add(dwich);
-				}
-				else
-				{
-					LOG.error(String.format(
-						"Le pseudo (avec sandwich) \"%s\" n'est pas matché par \"%s\"" + pseudoEtDwich,
-						pseudoEtDwich,
-						p.toString()));
-				}
-			}
-			
-			// Pas de dwich
-			else
-			{
-				pseudos.add(pseudoEtDwich);
-				dwiches.add(null);
-			}
-		}
-		
-		final List<Joueur> joueurs = new ArrayList<Joueur>(pseudosEtDwiches.size());
-		for (int i = 0; i < pseudos.size(); ++i)
-		{
-			final String pseudo = pseudos.get(i);
-			final String dwich  = dwiches.get(i);
-			try
-			{
-				final Joueur joueur = JoueursRepository.getInstance().getJoueurByPseudo(pseudo);
-				if (StringUtils.isNotEmpty(dwich))
-				{
-					joueur.setDwich(dwich);
-				}
-				joueurs.add(joueur);
-			}
-			catch (Exception e)
-			{
-				LOG.error("Impossible de créer le joueur  : " + pseudo, e);
-			}
-		}
-		
-		return new TreeSet<Joueur>(joueurs);
-	}
-	
 	/**
 	 * @return la date du prochain match dans le Doodle, <code>null</code> si plus aucune partie
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-	public Date getProchainMatch() throws IOException, ParseException
+	public Match getProchainMatch() throws IOException, ParseException
 	{
-		return getParser()
-				.getProchainMatch();
+		if (_prochainMatch == null)
+		{
+			_prochainMatch = getParser()
+					.getProchainMatch();
+			
+			_prochainMatch.setJoueurs(getParser().getJoueurs(_prochainMatch));
+		}
+		
+		return _prochainMatch;
 	}
 	
 	public SortedSet<Joueur> getJoueursProchainMatch() throws IOException, ParseException 
 	{
-		final Date date = getProchainMatch();
-		if (date == null)
+		final Match match = getProchainMatch();
+		if (match == null)
 		{
 			throw new RuntimeException("La date du prochain match est inconnue");
 		}
 		
-		return getJoueurs(date);
+		return match.getJoueurs();
 	}
 
 	/**
@@ -179,7 +119,7 @@ public class DoodleConnector extends WebConnector
 	{
 		if (_parser == null)
 		{
-			_parser = new DoodleJSONParser(getData());
+			_parser = new DoodleJSONParser(getURL(), getData());
 		}
 		return _parser;
 	}
@@ -210,30 +150,12 @@ public class DoodleConnector extends WebConnector
 		
 		final DoodleConnector con = new DoodleConnector();
 		
-		final StringBuilder sb = new StringBuilder();
-
-		final String date = DF.format(con.getProchainMatch());
-		
-		sb.append("Prochain match : ").append(date).newLines(2)
-		
-			.append("Liste de diffusion : ")
-			.append(con.getListeDeDiffusionProchainMatch()).newLines(2)
-
-			.append("Joueurs :").newLine()
-			.indent()
-			.append(con.getListeJoueursProchainMatch()).newLine()
-			.unindent().newLine()
-
-			.append("Sandwiches :").newLine()
-			.indent()
-			.append(con.getListeSandwichesProchainMatch()).newLine()
-			.unindent()
-			
-		;
-			
-
-		final File file = new File("./prochainMatch.txt");
-		FileUtils.writeStringToFile(file, sb.toString());
+//		// Texte
+//		final File file = new File("./prochainMatch.txt");
+//		MatchWriter.writeProchainMatch(con, file);
+		// HTML
+		final File file = new File("./prochainMatch.html.template");
+		MatchWriter.writeProchainMatchHTML(con, file);
 		
 		rep.save();
 	}

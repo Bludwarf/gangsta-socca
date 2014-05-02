@@ -18,6 +18,10 @@ public class JoueursXML extends ElementXML<SortedSet<Joueur>>
 	@Attribute
 	String doodle;
 	
+	/** Email de l'orga */
+	@Attribute(name="email-organisateur")
+	String emailOrga;
+	
 	@ElementList(inline=true, entry="joueur")
 	ArrayList<JoueurXML> joueurs;
 	
@@ -73,6 +77,7 @@ public class JoueursXML extends ElementXML<SortedSet<Joueur>>
 		}
 		
 		doodle = DoodleConnector.URL;
+		emailOrga = DoodleConnector.EMAIL_ORGANISATEUR;
 	}
 
 	@Override
@@ -86,7 +91,11 @@ public class JoueursXML extends ElementXML<SortedSet<Joueur>>
 		}
 		
 		// ATTENTION : On met à jour aussi l'URL par défaut du Connecteur
-		if (doodle != null) DoodleConnector.URL = doodle;
+		if (doodle != null)
+		{
+			DoodleConnector.URL = doodle;
+			DoodleConnector.EMAIL_ORGANISATEUR = emailOrga;
+		}
 		
 		return obj;
 	}

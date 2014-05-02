@@ -4,8 +4,10 @@ VERSIONS :
 
 	0.2 :
 		- Ne pas réinterroger le trombi si erreur 500 si une personne
-
-TODO :
-
-	0.2 :
-		> Résultats vides à partir de la 2e recherche
+		
+	2.0 :
+		- Page HTML à la place de prochainMatch.txt :
+			- Créer une page HTML avec un mailto: (http://fr.wikipedia.org/wiki/Mailto)
+		- Valeurs par défaut pour : email joeurs et nom complet joueurs + sandwiche
+		- Le pseudo des joueurs affiché est celui du Doodle
+		- Intégrer les informations du fichier mailMickaël.txt

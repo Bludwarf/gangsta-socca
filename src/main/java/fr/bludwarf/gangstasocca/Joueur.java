@@ -1,8 +1,8 @@
 package fr.bludwarf.gangstasocca;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -43,10 +43,12 @@ public class Joueur implements Comparable<Joueur>
 	
 	private static int _maxLengthNoms = -1;
 	
-	private Set<String> _pseudos;
+	private ArrayList<String> _pseudos;
 	private String _nom;
 	private Sandwich _sandwich;
 	private String _email;
+
+	private String _pseudoActuel;
 	
 	public Joueur(String nom)
 	{
@@ -88,11 +90,11 @@ public class Joueur implements Comparable<Joueur>
 		return new Joueur(nom);
 	}
 
-	public Set<String> getPseudos()
+	public List<String> getPseudos()
 	{
 		if (_pseudos == null)
 		{
-			_pseudos = new TreeSet<String>();
+			_pseudos = new ArrayList<String>();
 		}
 		return _pseudos;
 	}
@@ -148,7 +150,7 @@ public class Joueur implements Comparable<Joueur>
 		return JOptionPane.showInputDialog(
 		    null,
 		    String.format("Quel est l'adresse email de %s ?", getNom()),
-		    "Question");
+		    DoodleConnector.EMAIL_ORGANISATEUR);
 	}
 
 	/**
@@ -159,7 +161,7 @@ public class Joueur implements Comparable<Joueur>
 		return JOptionPane.showInputDialog(
 		    null,
 		    String.format("Quel est le nom complet du joueur portant le pseudo %s ?", pseudo),
-		    "Question");
+		    pseudo);
 	}
 	
 	public void setEmail(String email)
@@ -185,5 +187,42 @@ public class Joueur implements Comparable<Joueur>
 	public static String getListeDeDiffusion(Collection<Joueur> joueurs)
 	{
 		return StringUtils.join(joueurs, "; ", FORMAT);
+	}
+
+	/**
+	 * @return le dernier pseudo du joueur, sinon le nom complet si pas de pseudo
+	 */
+	public String getPseudo()
+	{
+		final List<String> pseudos = getPseudos();
+		if (pseudos == null || pseudos.isEmpty())
+		{
+			return getNom();
+		}
+		
+		return pseudos.get(pseudos.size() - 1);
+	}
+
+	/**
+	 * @see #getPseudoActuel()
+	 */
+	public void setPseudoActuel(String pseudo)
+	{
+		_pseudoActuel = pseudo;
+	}
+	
+	/**
+	 * @return le pseudo actuellement utilisé par le joueur, le dernier pseudo si inconnu
+	 * @since 2 mai 2014
+	 * 
+	 * @see #getPseudo()
+	 */
+	public String getPseudoActuel()
+	{
+		if (_pseudoActuel != null)
+		{
+			return _pseudoActuel;
+		}
+		return getPseudo();
 	}
 }

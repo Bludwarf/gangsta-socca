@@ -81,7 +81,7 @@ public class Sandwich implements Comparable<Sandwich>
 		return JOptionPane.showInputDialog(
 		    null,
 		    String.format("Quel est le nom complet du sandwich identifié par \"%s\" dans le Doodle ?", nomDoodle),
-		    "Question");
+		    nomDoodle);
 	}
 	
 	@Override

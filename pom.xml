@@ -1,30 +1,41 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>fr.bludwarf</groupId>
-  <artifactId>gangsta-socca</artifactId>
-  <version>1.0</version>
-  <name>Maitrise des résa de Soccer 5 façon Gansta</name>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.4.3</version>
-                <configuration>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-            
-            
-            <!-- Génération d'un fichier EXE -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.bludwarf</groupId>
+	<artifactId>gangsta-socca</artifactId>
+	<version>2.0</version>
+	<name>Maitrise des résa de Soccer 5 façon Gansta</name>
+
+	<properties>
+		<sourceEncoding>UTF-8</sourceEncoding>
+	</properties>
+
+	<organization>
+		<name>BludCorp</name>
+		<url>https://code.google.com/u/bludwarf/</url>
+	</organization>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.3</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+
+
+			<!-- Génération d'un fichier EXE -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -42,7 +53,7 @@
 					<shadedClassifierName>shaded</shadedClassifierName> <!-- set the suffix to the shaded jar -->
 				</configuration>
 			</plugin>
-            <plugin>
+			<plugin>
 				<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
 				<artifactId>launch4j-plugin</artifactId>
 				<version>1.5.0.0</version>
@@ -63,7 +74,7 @@
 							<classPath>
 								<mainClass>fr.bludwarf.gangstasocca.DoodleConnector</mainClass>
 							</classPath>
-							<icon>src/main/resources/icons/doodle-icon.ico</icon>
+							<icon>src/main/resources/icons/iconV2.ico</icon>
 							<jre>
 								<minVersion>1.5.0</minVersion>
 								<maxVersion>1.6.0</maxVersion>
@@ -76,9 +87,9 @@
 				</executions>
 			</plugin>
 			<!-- /Génération d'un fichier EXE -->
-            
-        </plugins>
-    </build>
+
+		</plugins>
+	</build>
 
 	<repositories>
 		<repository>
@@ -86,9 +97,26 @@
 			<url>https://dl.dropboxusercontent.com/u/34838159/mvn-repository/</url>
 		</repository>
 	</repositories>
-    
-    <dependencies>
-  		<dependency>
+
+	<!-- https://code.google.com/p/peter-lavalle/wiki/MavenOnDropBox -->
+	<!-- Pour créer un repo Maven : https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide -->
+	<!-- Voir Skywarrior:pom.xml pour un exemple complet -->
+	<distributionManagement>
+		<repository>
+			<id>dropbox.repo</id>
+			<name>Repository Maven Dropbox</name>
+			<url>file:///D:/Dropbox/Public/mvn-repository</url>
+		</repository>
+		<snapshotRepository>
+			<id>dropbox.repo-dev</id>
+			<name>Repository Maven Dropbox (DEV)</name>
+			<url>file:///D:/Dropbox/Public/mvn-repository/snapshots</url>
+			<uniqueVersion>true</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<dependencies>
+		<dependency>
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
 			<version>1.8</version>
@@ -110,7 +138,7 @@
 		<dependency>
 			<groupId>fr.bludwarf</groupId>
 			<artifactId>commons</artifactId>
-			<version>0.9-SNAPSHOT</version>
+			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.bludwarf</groupId>
@@ -119,23 +147,20 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		    <groupId>org.simpleframework</groupId>
-		    <artifactId>simple-xml</artifactId>
-		    <version>2.7</version>
+			<groupId>org.simpleframework</groupId>
+			<artifactId>simple-xml</artifactId>
+			<version>2.7</version>
 		</dependency>
 		<dependency>
-		  <!-- jsoup HTML parser library @ http://jsoup.org/ -->
-		  <groupId>org.jsoup</groupId>
-		  <artifactId>jsoup</artifactId>
-		  <version>1.7.2</version>
+			<!-- jsoup HTML parser library @ http://jsoup.org/ -->
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.7.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20131018</version>
 		</dependency>
-    </dependencies>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+	</dependencies>
 </project>

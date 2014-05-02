@@ -1,0 +1,9 @@
+
+	Paramètres utilisables :
+		${date}                 : 
+		${doodle.url}           : 
+		${joueurs.communicator} : 
+		${joueurs.html.li}      : 
+		${joueurs.mail}         : 
+		${joueurs.nb}           : 
+		${sandwiches.html.li}   :

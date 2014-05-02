@@ -2,21 +2,36 @@ package fr.bludwarf.gangstasocca.json;
 
 import static org.apache.commons.lang.time.DateUtils.isSameDay;
 
+import java.io.IOException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.configuration.plist.ParseException;
 import org.apache.commons.lang.time.DateUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import fr.bludwarf.commons.StringUtils;
+import fr.bludwarf.gangstasocca.Joueur;
+import fr.bludwarf.gangstasocca.JoueursRepository;
+import fr.bludwarf.gangstasocca.Match;
 
 public class DoodleJSONParser
 {
 	
 	public static final DateFormat DF_OUT = SimpleDateFormat.getDateInstance();
+	/** Log */
+	protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
+			.getLogger(DoodleJSONParser.class);
 	
 	private static List<JSONObject> _participantsJSON;
 	
@@ -27,8 +42,11 @@ public class DoodleJSONParser
 
 	private List<Date> _dates;
 
-	public DoodleJSONParser(final String data)
+	private URL _url;
+
+	public DoodleJSONParser(URL url, final String data)
 	{
+		_url = url;
 		_data = new JSONObject(data);
 	}
 
@@ -174,7 +192,7 @@ public class DoodleJSONParser
 	/**
 	 * @return la date du prochain match dans le Doodle, <code>null</code> si plus aucune partie
 	 */
-	public Date getProchainMatch()
+	public Match getProchainMatch()
 	{
 		final Calendar cal = Calendar.getInstance();
 		final Date now = cal.getTime();
@@ -184,7 +202,7 @@ public class DoodleJSONParser
 			if (now.getTime() <= date.getTime() || DateUtils.isSameDay(now, date))
 			{
 				System.out.println("Date du prochain match = " + DF_OUT.format(date));
-				return date;
+				return new Match(_url.toString(), date);
 			}
 		}
 		
@@ -199,5 +217,71 @@ public class DoodleJSONParser
 	public static boolean isPresent(JSONObject part, final int col)
 	{
 		return part.getString("preferences").charAt(col) == 'y';
+	}
+	
+
+	
+	public SortedSet<Joueur> getJoueurs(final Match match) throws IOException, ParseException 
+	{
+		final Date date = match.getDate();
+		final List<String> pseudosEtDwiches = getParticipants(date);
+		
+		// On doit séparer les pseudos des dwiches
+		List<String> pseudos = new ArrayList<String>();
+		List<String> dwiches = new ArrayList<String>();
+		for (final String pseudoEtDwich : pseudosEtDwiches)
+		{
+			// Avec dwich ?
+			if (pseudoEtDwich.contains("("))
+			{
+				final Pattern p = Pattern.compile("(.+?)\\s*\\((.+)\\)");
+				final Matcher m = p.matcher(pseudoEtDwich);
+				if (m.matches())
+				{
+					final String pseudo = m.group(1);
+					pseudos.add(pseudo);
+					final String dwich  = m.group(2);
+					dwiches.add(dwich);
+				}
+				else
+				{
+					LOG.error(String.format(
+						"Le pseudo (avec sandwich) \"%s\" n'est pas matché par \"%s\"" + pseudoEtDwich,
+						pseudoEtDwich,
+						p.toString()));
+				}
+			}
+			
+			// Pas de dwich
+			else
+			{
+				pseudos.add(pseudoEtDwich);
+				dwiches.add(null);
+			}
+		}
+		
+		final List<Joueur> joueurs = new ArrayList<Joueur>(pseudosEtDwiches.size());
+		for (int i = 0; i < pseudos.size(); ++i)
+		{
+			final String pseudo = pseudos.get(i);
+			final String dwich  = dwiches.get(i);
+			try
+			{
+				final Joueur joueur = JoueursRepository.getInstance().getJoueurByPseudo(pseudo);
+				if (StringUtils.isNotEmpty(dwich))
+				{
+					joueur.setDwich(dwich);
+				}
+				// Pseudo actuel
+				joueur.setPseudoActuel(pseudo);
+				joueurs.add(joueur);
+			}
+			catch (Exception e)
+			{
+				LOG.error("Impossible de créer le joueur  : " + pseudo, e);
+			}
+		}
+		
+		return new TreeSet<Joueur>(joueurs);
 	}
 }

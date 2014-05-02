@@ -1,6 +1,8 @@
 TODO
 	- Afficher la date de la génération dans prochainMatch.txt
-	- Page HTML à la place de prochainMatch.txt :
-		- Créer une page HTML avec un mailto: (http://fr.wikipedia.org/wiki/Mailto)
-		- Aller chercher les photos de chaque joueur pour la page HTML
-	- Intégrer les informations du fichier mailMickaël.txt
+	- Aller chercher les photos de chaque joueur pour la page HTML
+	
+Rejeté
+======
+	- Ajouter automatiquement le body dans le lien [mail]
+		- Hélas ! Outlook ne reconnait pas les contenu de mail HTML ! Dommage :(

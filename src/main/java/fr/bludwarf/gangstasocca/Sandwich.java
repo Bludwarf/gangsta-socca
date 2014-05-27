@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedMap;
-import java.util.SortedSet;
 import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
@@ -95,7 +94,7 @@ public class Sandwich implements Comparable<Sandwich>
 		return getNom().compareTo(o.getNom());
 	}
 	
-	public static SortedMap<Sandwich, Integer> getSandwiches(final SortedSet<Joueur> joueurs)
+	public static SortedMap<Sandwich, Integer> getSandwiches(final Set<Joueur> joueurs)
 	{
 		SortedMap<Sandwich, Integer> dwiches = new TreeMap<Sandwich, Integer>();
 		for (final Joueur joueur : joueurs)

@@ -1,8 +1,11 @@
 TODO
+=====
+	- Accents mal écrit mais bien récupéré du Doodle (exemple "Xavì")
+		- S'affiche bien en JUnit mais voir si Console en UTF-8 ? => /GangstaSocca/src/test/java/fr/bludwarf/gangstasocca/DoodleConnectorTest.java
 	- Afficher la date de la génération dans prochainMatch.txt
 	- Aller chercher les photos de chaque joueur pour la page HTML
 	
 Rejeté
-======
+=======
 	- Ajouter automatiquement le body dans le lien [mail]
 		- Hélas ! Outlook ne reconnait pas les contenu de mail HTML ! Dommage :(

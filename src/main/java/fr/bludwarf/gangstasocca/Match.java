@@ -2,8 +2,10 @@ package fr.bludwarf.gangstasocca;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 
 import fr.bludwarf.commons.web.URLUtils;
@@ -12,7 +14,7 @@ import fr.bludwarf.gangstasocca.output.MatchWriter;
 public class Match
 {
 	private Date _date;
-	private SortedSet<Joueur> joueurs;
+	private Set<Joueur> joueurs;
 	private String _doodle;
 
 	public Match(final String doodle, final Date date)
@@ -21,12 +23,12 @@ public class Match
 		_date = date;
 	}
 	
-	public void setJoueurs(SortedSet<Joueur> joueurs)
+	public void setJoueurs(Set<Joueur> joueurs)
 	{
 		this.joueurs = joueurs;
 	}
 	
-	public SortedSet<Joueur> getJoueurs()
+	public Set<Joueur> getJoueurs()
 	{
 		return joueurs;
 	}
@@ -66,6 +68,9 @@ public class Match
 		return emails;
 	}
 	
+	/**
+	 * @return mailto:*
+	 */
 	public String getMail()
 	{
 		final String sujet = "[Soccer] Match du " + getDateStr();

@@ -1,7 +1,7 @@
 package fr.bludwarf.gangstasocca;
 
 import java.util.ArrayList;
-import java.util.SortedSet;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.simpleframework.xml.Attribute;
@@ -11,7 +11,7 @@ import org.simpleframework.xml.Root;
 import fr.bludwarf.commons.xml.ElementXML;
 
 @Root(name="joueurs")
-public class JoueursXML extends ElementXML<SortedSet<Joueur>>
+public class JoueursXML extends ElementXML<Set<Joueur>>
 {
 	
 	/** URL du Doodle courant */
@@ -66,7 +66,7 @@ public class JoueursXML extends ElementXML<SortedSet<Joueur>>
 	}
 
 	@Override
-	public void fromObject(SortedSet<Joueur> obj) throws Exception
+	public void fromObject(Set<Joueur> obj) throws Exception
 	{
 		joueurs = new ArrayList<JoueursXML.JoueurXML>();
 		for (final Joueur joueur : obj)
@@ -76,14 +76,15 @@ public class JoueursXML extends ElementXML<SortedSet<Joueur>>
 			joueurs.add(jXML);
 		}
 		
-		doodle = DoodleConnector.URL;
-		emailOrga = DoodleConnector.EMAIL_ORGANISATEUR;
+		final JoueursRepository repo = JoueursRepository.getInstance();
+		doodle = repo.getDoodleURL();
+		emailOrga = repo.getEmailOrga();
 	}
 
 	@Override
-	public SortedSet<Joueur> toObject() throws Exception
+	public Set<Joueur> toObject() throws Exception
 	{
-		SortedSet<Joueur> obj = new TreeSet<Joueur>();
+		Set<Joueur> obj = new TreeSet<Joueur>();
 		for (final JoueurXML jXML : joueurs)
 		{
 			final Joueur j = jXML.toObject();
@@ -93,8 +94,9 @@ public class JoueursXML extends ElementXML<SortedSet<Joueur>>
 		// ATTENTION : On met à jour aussi l'URL par défaut du Connecteur
 		if (doodle != null)
 		{
-			DoodleConnector.URL = doodle;
-			DoodleConnector.EMAIL_ORGANISATEUR = emailOrga;
+			final JoueursRepository repo = JoueursRepository.getInstance();
+			repo.setDoodleURL(doodle);
+			repo.setEmailOrga(emailOrga);
 		}
 		
 		return obj;

@@ -85,7 +85,8 @@ public class SandwichRepository extends XMLRepository<SortedSet<Sandwich>, Sandw
 			}
 			
 			
-			final String nom = DoodleElementMatcher.prompt(nomDoodle, getNomsSandwiches(), true);
+			final String question = String.format("A quel sandwich correspond \"%s\" ?", nomDoodle);
+			final String nom = DoodleElementMatcher.prompt(question, nomDoodle, getNomsSandwiches(), true);
 			LOG.debug(nomDoodle + " correspond au nom " + nom);
 			
 			final Sandwich sandwich;

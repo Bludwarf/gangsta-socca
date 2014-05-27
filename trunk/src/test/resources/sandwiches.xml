@@ -1,6 +1,27 @@
 <sandwiches>
-	<sandwich nom="Américain Thon">
-		<doodle>thon</doodle>
-		<doodle>Thon</doodle>
-	</sandwich>
+   <sandwich nom="(pas de sandwich)">
+      <doodle>rien</doodle>
+   </sandwich>
+   <sandwich nom="Club">
+      <doodle>club</doodle>
+   </sandwich>
+   <sandwich nom="Français"/>
+   <sandwich nom="Jambon">
+      <doodle>AM Jambon</doodle>
+      <doodle>jambon</doodle>
+      <doodle>Jambon</doodle>
+      <doodle>Americain J</doodle>
+   </sandwich>
+   <sandwich nom="Poulet">
+      <doodle>Poulet</doodle>
+      <doodle>poulet</doodle>
+   </sandwich>
+   <sandwich nom="Salade de pâtes">
+      <doodle>salade</doodle>
+   </sandwich>
+   <sandwich nom="Thon">
+      <doodle>THON</doodle>
+      <doodle>Thon</doodle>
+      <doodle>thon</doodle>
+   </sandwich>
 </sandwiches>

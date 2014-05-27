@@ -1,12 +1,14 @@
 package fr.bludwarf.gangstasocca;
 
-import java.util.SortedSet;
+import java.util.Set;
 import java.util.TreeSet;
+
+import org.apache.commons.lang.NotImplementedException;
 
 import fr.bludwarf.commons.StringUtils;
 import fr.bludwarf.commons.xml.XMLRepository;
 
-public class JoueursRepository extends XMLRepository<SortedSet<Joueur>, JoueursXML>
+public class JoueursRepository extends XMLRepository<Set<Joueur>, JoueursXML>
 {
 	
 	/** Log */
@@ -15,6 +17,10 @@ public class JoueursRepository extends XMLRepository<SortedSet<Joueur>, JoueursX
 	
 	/** instance */
 	private static JoueursRepository _instance = null;
+
+	private String _doodleURL;
+
+	private String _emailOrga;
 
 	private JoueursRepository()
 	{
@@ -34,7 +40,7 @@ public class JoueursRepository extends XMLRepository<SortedSet<Joueur>, JoueursX
 	
 	private static final String FILE = "joueurs.xml";
 
-	public SortedSet<Joueur> getJoueurs() throws Exception
+	public Set<Joueur> getJoueurs() throws Exception
 	{
 		return getElements();
 	}
@@ -51,10 +57,10 @@ public class JoueursRepository extends XMLRepository<SortedSet<Joueur>, JoueursX
 		return FILE;
 	}
 	
-	public SortedSet<String> getNomsJoueurs() throws Exception
+	public Set<String> getNomsJoueurs() throws Exception
 	{
-		final SortedSet<Joueur> joueurs = getJoueurs();
-		SortedSet<String> noms = new TreeSet<String>();
+		final Set<Joueur> joueurs = getJoueurs();
+		Set<String> noms = new TreeSet<String>();
 		for (final Joueur joueur : joueurs)
 		{
 			noms.add(joueur.getNom());
@@ -103,7 +109,7 @@ public class JoueursRepository extends XMLRepository<SortedSet<Joueur>, JoueursX
 
 	public Joueur getJoueurByPseudo(String pseudo) throws Exception
 	{
-		final SortedSet<String> noms = getNomsJoueurs();
+		final Set<String> noms = getNomsJoueurs();
 		
 		// Le pseudo est exactement le nom complet du joueur
 		if (noms.contains(pseudo))
@@ -124,7 +130,8 @@ public class JoueursRepository extends XMLRepository<SortedSet<Joueur>, JoueursX
 			}
 			
 			
-			final String nom = DoodleElementMatcher.prompt(pseudo, getNomsJoueurs(), true);
+			final String question = String.format("Qui est %s ?", pseudo);
+			final String nom = DoodleElementMatcher.prompt(question, pseudo, getNomsJoueurs(), true);
 			LOG.debug(pseudo + " correspond au nom " + nom);
 			
 			final Joueur joueur;
@@ -183,6 +190,41 @@ public class JoueursRepository extends XMLRepository<SortedSet<Joueur>, JoueursX
 	{
 		super.save();
 		SandwichRepository.getInstance().save();
+	}
+	
+	private void loadWildVars() throws Exception
+	{
+		getJoueurs();
+		if (_doodleURL == null) throw new NotImplementedException("L'URL par défaut du Doodle doit être positionnée au moment du chargement des joueurs (joueurs.xml)");
+		if (_emailOrga == null) throw new NotImplementedException("L'email de l'organisateur doit être positionné au moment du chargement des joueurs (joueurs.xml)");
+	}
+
+	public String getDoodleURL() throws Exception
+	{
+		if (_doodleURL == null)
+		{
+			loadWildVars();
+		}
+		return _doodleURL;
+	}
+
+	public String getEmailOrga() throws Exception
+	{
+		if (_emailOrga == null)
+		{
+			loadWildVars();
+		}
+		return _emailOrga;
+	}
+	
+	public void setDoodleURL(String doodleURL)
+	{
+		_doodleURL = doodleURL;
+	}
+	
+	public void setEmailOrga(String emailOrga)
+	{
+		_emailOrga = emailOrga;
 	}
 
 }

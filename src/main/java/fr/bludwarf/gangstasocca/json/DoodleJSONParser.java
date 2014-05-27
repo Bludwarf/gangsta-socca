@@ -9,9 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -221,7 +221,13 @@ public class DoodleJSONParser
 	
 
 	
-	public SortedSet<Joueur> getJoueurs(final Match match) throws IOException, ParseException 
+	/**
+	 * @param match
+	 * @return La liste des joueurs (sans doublon) et dans le même ordre que le Doodle 
+	 * @throws IOException
+	 * @throws ParseException
+	 */
+	public Set<Joueur> getJoueurs(final Match match) throws IOException, ParseException 
 	{
 		final Date date = match.getDate();
 		final List<String> pseudosEtDwiches = getParticipants(date);
@@ -282,6 +288,6 @@ public class DoodleJSONParser
 			}
 		}
 		
-		return new TreeSet<Joueur>(joueurs);
+		return new LinkedHashSet<Joueur>(joueurs);
 	}
 }

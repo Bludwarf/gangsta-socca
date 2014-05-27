@@ -1,11 +1,10 @@
 package fr.bludwarf.gangstasocca;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
-import java.util.SortedSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,7 +15,6 @@ import fr.bludwarf.commons.StringUtils;
 import fr.bludwarf.commons.formatters.MapFormatter;
 import fr.bludwarf.commons.web.WebConnector;
 import fr.bludwarf.gangstasocca.json.DoodleJSONParser;
-import fr.bludwarf.gangstasocca.output.MatchWriter;
 
 public class DoodleConnector extends WebConnector
 {
@@ -24,7 +22,7 @@ public class DoodleConnector extends WebConnector
 	/** Log */
 	protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 			.getLogger(DoodleConnector.class);
-	public static String URL = "http://www.doodle.com/uvbbrna677dfbw7e";
+//	public static String URL = "http://www.doodle.com/uvbbrna677dfbw7e";
 	public static String EMAIL_ORGANISATEUR = "mathieu.lavigne@capgemini.com";
 	
 	public static MapFormatter<Sandwich, Integer> DWICH_FORMATTER = new MapFormatter<Sandwich, Integer>() {
@@ -39,10 +37,14 @@ public class DoodleConnector extends WebConnector
 	private DoodleJSONParser _parser;
 	private Match _prochainMatch;
 
-	public DoodleConnector() throws MalformedURLException
+	/**
+	 * Par défaut l'URL de joueurs.xml
+	 * @throws Exception 
+	 */
+	public DoodleConnector() throws Exception
 	{
 		super();
-		_url = new URL(URL);
+		_url = new URL(JoueursRepository.getInstance().getDoodleURL());
 	}
 
 	public DoodleConnector(final String url) throws MalformedURLException
@@ -99,7 +101,7 @@ public class DoodleConnector extends WebConnector
 		return _prochainMatch;
 	}
 	
-	public SortedSet<Joueur> getJoueursProchainMatch() throws IOException, ParseException 
+	public Set<Joueur> getJoueursProchainMatch() throws IOException, ParseException 
 	{
 		final Match match = getProchainMatch();
 		if (match == null)
@@ -141,23 +143,6 @@ public class DoodleConnector extends WebConnector
 //		return StringUtils.join(getJoueursProchainMatch(), IOUtils.LINE_SEPARATOR);
 		return Joueur.getListeNumerotee(
 			getJoueursProchainMatch());
-	}
-	
-	public static void main(final String[] args) throws Exception
-	{
-		final JoueursRepository rep = JoueursRepository.getInstance();
-		rep.load();
-		
-		final DoodleConnector con = new DoodleConnector();
-		
-//		// Texte
-//		final File file = new File("./prochainMatch.txt");
-//		MatchWriter.writeProchainMatch(con, file);
-		// HTML
-		final File file = new File("./prochainMatch.html.template");
-		MatchWriter.writeProchainMatchHTML(con, file);
-		
-		rep.save();
 	}
 
 	public String getListeSandwichesProchainMatch() throws IOException, ParseException

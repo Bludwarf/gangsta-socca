@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 
@@ -84,7 +84,7 @@ public class DoodleElementMatcher
 			if (joueursPre.size() != 1)
 			{
 				if (prompt)
-					return prompt(nomDoodle, joueursPre, false);
+					return prompt(String.format("A quel joueur/sandwich correspond le pseudo/dwich :\n%s ?", nomDoodle), nomDoodle, joueursPre, false);
 				else
 					throw new MatcherException(String.format("Impossible de trouver un seul \"%s\" dans la liste des joueurs", nomDoodle));
 			}
@@ -92,7 +92,7 @@ public class DoodleElementMatcher
 		}
 		
 		if (prompt)
-			return prompt(nomDoodle, joueurs, false);
+			return prompt(String.format("A quel joueur/sandwich correspond le pseudo/dwich :\n%s ?", nomDoodle), nomDoodle, joueurs, false);
 		else
 			throw new MatcherException(String.format("Type de pseudo inconnu pour \"%s\"", nomDoodle));
 	}
@@ -238,18 +238,18 @@ public class DoodleElementMatcher
 		super();
 	}
 	
-	public static String prompt(String nomDoodle, List<String> elements)
+	public static String prompt(String question, String nomDoodle, List<String> elements)
 	{
-		return prompt(nomDoodle, elements, false);
+		return prompt(question, nomDoodle, elements, false);
 	}
 
-	public static String prompt(String nomDoodle, SortedSet<String> nomsDoodle,
+	public static String prompt(String question, String nomDoodle, Set<String> nomsDoodle,
 			boolean autoSelect)
 	{
-		return prompt(nomDoodle, new ArrayList<String>(nomsDoodle), autoSelect);
+		return prompt(question, nomDoodle, new ArrayList<String>(nomsDoodle), autoSelect);
 	}
 
-	public static String prompt(String nomDoodle, Collection<String> elements, boolean autoSelect)
+	public static String prompt(String question, String nomDoodle, Collection<String> elements, boolean autoSelect)
 	{
 		Object[] possibilities = elements.toArray();
 		
@@ -274,7 +274,7 @@ public class DoodleElementMatcher
 		
 		String s = (String)JOptionPane.showInputDialog(
             null,
-            String.format("A quel joueur/sandwich correspond le pseudo/dwich :\n%s ?", nomDoodle),
+            question,
             "Question",
             JOptionPane.QUESTION_MESSAGE,
             null,

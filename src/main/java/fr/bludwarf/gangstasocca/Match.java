@@ -2,9 +2,9 @@ package fr.bludwarf.gangstasocca;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -73,8 +73,18 @@ public class Match
 	 */
 	public String getMail()
 	{
-		final String sujet = "[Soccer] Match du " + getDateStr();
+		final String sujet = getTitre();
 		return URLUtils.mail(getEmails(), sujet);
+	}
+
+	/**
+	 * @return
+	 */
+	public String getTitre()
+	{
+		final Properties props = new Properties();
+		props.setProperty("date", getDateStr());
+		return GangstaSoccaProperties.getInstance().getString("match.titre", props);
 	}
 
 	/**

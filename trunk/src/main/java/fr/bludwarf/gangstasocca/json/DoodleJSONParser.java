@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import fr.bludwarf.commons.StringUtils;
+import fr.bludwarf.gangstasocca.GangstaSoccaProperties;
 import fr.bludwarf.gangstasocca.Joueur;
 import fr.bludwarf.gangstasocca.JoueursRepository;
 import fr.bludwarf.gangstasocca.Match;
@@ -28,7 +29,9 @@ import fr.bludwarf.gangstasocca.Match;
 public class DoodleJSONParser
 {
 	
-	public static final DateFormat DF_OUT = SimpleDateFormat.getDateInstance();
+//	public static final DateFormat DF_OUT = SimpleDateFormat.getDateInstance();
+	public static final DateFormat DF_OUT = new SimpleDateFormat(GangstaSoccaProperties.getInstance().getString("date.format" ,"EE d MMM"));
+	
 	/** Log */
 	protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 			.getLogger(DoodleJSONParser.class);

@@ -11,7 +11,7 @@ public class DoodleConnectorTest
 {
 
 	@Test
-	@Ignore // test en live
+	@Ignore
 	public void testGetJoueursProchainMatch() throws Exception
 	{
 		final DoodleConnector con = new DoodleConnector();

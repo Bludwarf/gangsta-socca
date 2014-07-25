@@ -40,7 +40,6 @@ public class JoueursXML extends ElementXML<Set<Joueur>>
 		@Override
 		public void fromObject(Joueur obj) throws Exception
 		{
-			// TODO : pseudos
 			nom = obj.getNom();
 			email = obj.getEmail();
 			pseudos = new ArrayList<String>(obj.getPseudos());

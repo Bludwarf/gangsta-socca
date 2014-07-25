@@ -11,6 +11,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
 
 import fr.bludwarf.commons.StringBuilder;
+import fr.bludwarf.commons.StringUtils;
 import fr.bludwarf.commons.io.FileUtils;
 import fr.bludwarf.gangstasocca.DoodleConnector;
 import fr.bludwarf.gangstasocca.Joueur;
@@ -94,12 +95,12 @@ public class MatchWriter
 	{
 		
 		// remplacement des propriétés dans le template
-		String content = FileUtils.readFileToString(template);
+		String content = FileUtils.readFileToString(template, FileUtils.UTF8);
 		content = StrSubstitutor.replace(content, props);
 		
 		// out
 		final File file = new File(FilenameUtils.removeExtension(template.getPath()));
-		FileUtils.writeStringToFile(file, content);
+		FileUtils.writeStringToFile(file, content, FileUtils.UTF8);
 		
 		return file;
 	}

@@ -2,19 +2,26 @@ package fr.bludwarf.gangstasocca;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.JOptionPane;
 
 import org.apache.commons.io.IOUtils;
+import org.simpleframework.xml.Root;
+import org.simpleframework.xml.Text;
 
 import fr.bludwarf.commons.StringUtils;
 import fr.bludwarf.commons.formatters.CollectionFormatter;
 import fr.bludwarf.gangstasocca.exceptions.PseudoDejaUtiliseException;
+import fr.bludwarf.gangstasocca.stats.Stats;
 
+@Root(name = "joueur")
 public class Joueur implements Comparable<Joueur>
 {
-	
+
 	/** Log */
 	protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 			.getLogger(Joueur.class);
@@ -44,15 +51,24 @@ public class Joueur implements Comparable<Joueur>
 	private static int _maxLengthNoms = -1;
 	
 	private ArrayList<String> _pseudos;
+	
+	@Text
 	private String _nom;
+	
 	private Sandwich _sandwich;
 	private String _email;
 
 	private String _pseudoActuel;
+
+	private Stats stats;
+
+	private TreeSet<Match> matchesJoués;
+	private Object matchesJoués_ref;
 	
-	public Joueur(String nom)
+	public Joueur(@Text String nom)
 	{
 		_nom = nom;
+		addPseudo(nom);
 	}
 	
 	/**
@@ -169,14 +185,27 @@ public class Joueur implements Comparable<Joueur>
 		_email = email;
 	}
 
-	public void addPseudo(String pseudo)
+	public boolean addPseudo(String pseudo)
 	{
-		getPseudos().add(pseudo);
+		final List<String> pseudos = getPseudos();
+		if (pseudos.contains(pseudo)) return false;
+		return pseudos.add(pseudo);
 	}
 	
 	public int compareTo(Joueur o)
 	{
 		return this.getNom().compareTo(o.getNom()); 
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj) return true;
+		if (obj instanceof Joueur)
+		{
+			return compareTo((Joueur) obj) == 0;
+		}
+		return false;
 	}
 	
 	public static String getListeNumerotee(Collection<Joueur> joueurs)
@@ -224,5 +253,94 @@ public class Joueur implements Comparable<Joueur>
 			return _pseudoActuel;
 		}
 		return getPseudo();
+	}
+	
+	public boolean joueEnRouge(Match match)
+	{
+		return match.joueurJoueRouge(this);
+	}
+	
+	public Stats getStats(Matches matches)
+	{
+		if (stats == null)
+		{
+			
+			stats = new Stats(matches);
+		}
+		return stats;
+	}
+
+	public Set<Joueur> getEquipe(Match match)
+	{
+		Set<Joueur> equipe = new LinkedHashSet<Joueur>();
+		for (final Joueur joueur : match.getJoueurs())
+		{
+			if (joueur.joueAvec(this, match))
+			{
+				equipe.add(joueur);
+			}
+		}
+		return equipe;
+	}
+
+	public Set<Joueur> getEquipeAdverse(Match match)
+	{
+		Set<Joueur> equipe = new LinkedHashSet<Joueur>();
+		for (final Joueur joueur : match.getJoueurs())
+		{
+			if (!joueur.joueAvec(this, match))
+			{
+				equipe.add(joueur);
+			}
+		}
+		return equipe;
+	}
+
+	public boolean joueAvec(Joueur joueur, Match match)
+	{
+		return match.memeEquipe(joueur, this);
+	}
+
+	public TreeSet<Match> getMatches(Matches matches)
+	{
+		if (matchesJoués_ref == null || matchesJoués_ref != matches) // need refresh ?
+		{
+			matchesJoués = new TreeSet<Match>();
+			for (final Match match : matches)
+			{
+				if (this.aJoué(match))
+				{
+					matchesJoués.add(match);
+				}
+			}
+			matchesJoués_ref = matches;
+		}
+		return matchesJoués;
+	}
+
+	public boolean aJoué(Match match)
+	{
+		return match.contains(this);
+	}
+	
+	public Match getPremierMatch(Matches matches)
+	{
+		return getMatches(matches).first();
+	}
+
+	public boolean premierMatch(Match match, Matches matches)
+	{
+		return getPremierMatch(matches).equals(match);
+	}
+
+	public Match matchPrécédent(Match match, Matches matches)
+	{
+		return getMatches(matches).lower(match);
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return getNom().hashCode();
 	}
 }

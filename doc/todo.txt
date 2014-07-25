@@ -4,6 +4,7 @@ TODO
 		- S'affiche bien en JUnit mais voir si Console en UTF-8 ? => /GangstaSocca/src/test/java/fr/bludwarf/gangstasocca/DoodleConnectorTest.java
 	- Afficher la date de la génération dans prochainMatch.txt
 	- Aller chercher les photos de chaque joueur pour la page HTML
+	- Afficher le nombre de sandwiches comme le nombre de joueurs
 	
 Rejeté
 =======

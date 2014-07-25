@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import fr.bludwarf.commons.test.TestUtils;
@@ -57,6 +58,7 @@ public class JoueurMatcherTest
 	}
 
 	@Test
+	@Ignore
 	public void testGetJoueurByPseudoPrompt() throws Exception
 	{
 		TestUtils.info("La fenêtre suivante doit apparaitre une seule fois. Saisissez \"Mathieu Blandin\"");

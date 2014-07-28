@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<matches nb="1" debut="2014-07-28T13:01:02.453+02:00" fin="2014-07-28T13:01:02.453+02:00">
+    <match score-rouges="0" joué="false" doodle="doodle" date="2014-07-28T13:01:02.453+02:00">
+        <joueurs>
+            <joueur rouge="true" elo-après="NaN" elo-avant="1200.0">Martin</joueur>
+            <joueur rouge="true" elo-après="NaN" elo-avant="1200.0">Mathieu</joueur>
+        </joueurs>
+    </match>
+</matches>

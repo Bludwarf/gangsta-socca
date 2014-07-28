@@ -84,10 +84,14 @@ public class JoueursXML extends ElementXML<Set<Joueur>>
 	public Set<Joueur> toObject() throws Exception
 	{
 		Set<Joueur> obj = new TreeSet<Joueur>();
-		for (final JoueurXML jXML : joueurs)
+		
+		if (joueurs != null)
 		{
-			final Joueur j = jXML.toObject();
-			obj.add(j);
+			for (final JoueurXML jXML : joueurs)
+			{
+				final Joueur j = jXML.toObject();
+				obj.add(j);
+			}
 		}
 		
 		// ATTENTION : On met à jour aussi l'URL par défaut du Connecteur

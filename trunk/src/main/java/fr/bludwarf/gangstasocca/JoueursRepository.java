@@ -190,6 +190,7 @@ public class JoueursRepository extends XMLRepository<Set<Joueur>, JoueursXML>
 	{
 		super.save();
 		SandwichRepository.getInstance().save();
+		MatchesRepository.getInstance().save();
 	}
 	
 	private void loadWildVars() throws Exception
@@ -225,6 +226,15 @@ public class JoueursRepository extends XMLRepository<Set<Joueur>, JoueursXML>
 	public void setEmailOrga(String emailOrga)
 	{
 		_emailOrga = emailOrga;
+	}
+	
+	@Override
+	public Set<Joueur> load() throws Exception
+	{
+		final Set<Joueur> joueurs = super.load();
+		SandwichRepository.getInstance().load();
+		MatchesRepository.getInstance().load();
+		return joueurs;
 	}
 
 }

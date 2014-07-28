@@ -3,6 +3,8 @@ package fr.bludwarf.gangstasocca;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.Date;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.junit.Ignore;
@@ -59,10 +61,21 @@ public class MatchesTest
 	}
 
 	@Test
-	@Ignore
-	public void testFromObjectTreeSetOfMatch()
+	public void testFromObjectTreeSetOfMatch() throws Exception
 	{
-		fail("Not yet implemented");
+		final Matches matchesXML = new Matches();
+		TreeSet<Match> matches = new TreeSet<Match>();
+		final Match match = new Match("doodle", new Date());
+		
+		Set<Joueur> joueurs = new TreeSet<Joueur>();
+		joueurs.add(new Joueur("Mathieu"));
+		joueurs.add(new Joueur("Martin"));
+		match.setJoueurs(joueurs);
+		matches.add(match);
+		
+		matchesXML.fromObject(matches);
+		final File file = new File("src/test/resources/xml/matches.out.xml");
+		matchesXML.save(file);
 	}
 
 	@Test

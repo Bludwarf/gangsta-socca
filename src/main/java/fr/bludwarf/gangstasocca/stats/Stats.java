@@ -57,6 +57,11 @@ public class Stats
 		return elo;
 	}
 
+	public void setEloAprès(Match match, Joueur joueur, double elo)
+	{
+		save(match, joueur, elo);
+	}
+
 	private void save(Match match, Joueur joueur, double elo)
 	{
 		if (!elosAprès.containsKey(match))
@@ -77,7 +82,7 @@ public class Stats
 		return elosMatch.get(joueur);
 	}
 
-	private double getEloAvant(Match match, Joueur joueur)
+	public double getEloAvant(Match match, Joueur joueur)
 	{
 		final Match matchPre = joueur.matchPrécédent(match, matches);
 		if (matchPre == null) return START_ELO;

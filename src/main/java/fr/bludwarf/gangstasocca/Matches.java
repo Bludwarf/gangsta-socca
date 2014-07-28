@@ -34,15 +34,21 @@ public class Matches extends ElementXML<TreeSet<Match>> implements Iterable<Matc
 	@Override
 	public void fromObject(TreeSet<Match> obj) throws Exception
 	{
-		// TODO Auto-generated method stub
-		
+		nb = obj.size();
+		debut = obj.first().getDate();
+		fin = obj.last().getDate();
+		matches = new ArrayList<Match>(obj.size());
+		matches.addAll(obj);
 	}
 
 	@Override
 	public TreeSet<Match> toObject() throws Exception
 	{
-		// TODO Auto-generated method stub
-		return null;
+		if (matches == null)
+		{
+			return new TreeSet<Match>();
+		}
+		return new TreeSet<Match>(matches);
 	}
 	
 	@Commit

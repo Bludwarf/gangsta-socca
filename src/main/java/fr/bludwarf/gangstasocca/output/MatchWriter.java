@@ -48,12 +48,12 @@ public class MatchWriter
 		FileUtils.writeStringToFile(file, sb.toString());
 	}
 	
-	public static File writeProchainMatchHTML(final DoodleConnector con, File template) throws IOException, ParseException 
+	public static File writeProchainMatchHTML(final DoodleConnector con, File template) throws Exception 
 	{		
 		return writeProchainMatchHTML(con.getProchainMatch(), template);
 	}
 
-	public static File writeProchainMatchHTML(Match match, File template) throws IOException, ParseException
+	public static File writeProchainMatchHTML(Match match, File template) throws Exception
 	{
 		StringBuilder sb;
 		
@@ -93,16 +93,7 @@ public class MatchWriter
 	
 	public static File writeProchainMatchHTML(final Properties props, File template) throws IOException, ParseException 
 	{
-		
-		// remplacement des propriétés dans le template
-		String content = FileUtils.readFileToString(template, FileUtils.UTF8);
-		content = StrSubstitutor.replace(content, props);
-		
-		// out
-		final File file = new File(FilenameUtils.removeExtension(template.getPath()));
-		FileUtils.writeStringToFile(file, content, FileUtils.UTF8);
-		
-		return file;
+		return FileUtils.writeTemplate(props, template);
 	}
 	
 }

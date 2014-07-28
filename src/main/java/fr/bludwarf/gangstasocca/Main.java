@@ -12,7 +12,6 @@ public class Main
 	{
 		final JoueursRepository rep = JoueursRepository.getInstance();
 		rep.load();
-		
 		final DoodleConnector con = new DoodleConnector();
 		
 //		// Texte
@@ -22,6 +21,9 @@ public class Main
 		final File file = new File("prochainMatch.html.template");
 		final Match match = con.getProchainMatch();
 		final File outFile = MatchWriter.writeProchainMatchHTML(match, file);
+		
+		// Ajout du match
+		MatchesRepository.getInstance().add(match);
 		
 		rep.save();
 		

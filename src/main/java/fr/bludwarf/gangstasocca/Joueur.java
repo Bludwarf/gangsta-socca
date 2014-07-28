@@ -318,9 +318,13 @@ public class Joueur implements Comparable<Joueur>
 		return matchesJoués;
 	}
 
+	/**
+	 * @param match
+	 * @return <code>true</code> ssi le match a été joué et que le joueur comptait parmi les participants
+	 */
 	public boolean aJoué(Match match)
 	{
-		return match.contains(this);
+		return match.aÉtéJoué() && match.contains(this);
 	}
 	
 	public Match getPremierMatch(Matches matches)

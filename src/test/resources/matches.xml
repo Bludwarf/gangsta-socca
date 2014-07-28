@@ -1,5 +1,5 @@
 <matches nb="1" debut="2014-07-15T12:00:00Z" fin="2014-07-22T12:00:00Z">
-	<match date="2014-07-15T12:00:00Z" score-rouges="1" doodle="http://www.doodle.com/uvbbrna677dfbw7e">
+	<match date="2014-07-15T12:00:00Z" score-rouges="1" doodle="http://www.doodle.com/uvbbrna677dfbw7e" joué="true">
 		<joueurs>
 			<joueur rouge="true">Mickael</joueur>
 			<joueur rouge="false">Romain</joueur>
@@ -13,7 +13,7 @@
 			<joueur rouge="true">Antoine BOYERE</joueur>
 		</joueurs>
 	</match>
-	<match date="2014-07-22T12:00:00Z" score-rouges="0" doodle="http://www.doodle.com/uvbbrna677dfbw7e">
+	<match date="2014-07-22T12:00:00Z" score-rouges="0" doodle="http://www.doodle.com/uvbbrna677dfbw7e" joué="true">
 		<joueurs>
 			<joueur rouge="false">Mickael</joueur>
 			<joueur rouge="true">Nico</joueur>

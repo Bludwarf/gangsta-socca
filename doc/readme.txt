@@ -2,8 +2,17 @@
 
 VERSIONS :
 
-	0.2 :
-		- Ne pas réinterroger le trombi si erreur 500 si une personne
+	2.3 :
+		- Repo des matches
+
+	2.2 :
+		- Génération HTML du prochain match
+		
+	2.1 :
+		- Ordre des joueurs = ordre du Doodle
+		- UTF-8
+		- Template + exe copié dans la Dropbox lors du deploy
+		- Ouverture auto du fichier généré + ouverture du mail
 		
 	2.0 :
 		- Page HTML à la place de prochainMatch.txt :
@@ -11,9 +20,6 @@ VERSIONS :
 		- Valeurs par défaut pour : email joeurs et nom complet joueurs + sandwiche
 		- Le pseudo des joueurs affiché est celui du Doodle
 		- Intégrer les informations du fichier mailMickaël.txt
-		
-	2.1 :
-		- Ordre des joueurs = ordre du Doodle
-		- UTF-8
-		- Template + exe copié dans la Dropbox lors du deploy
-		- Ouverture auto du fichier généré + ouverture du mail
+
+	0.2 :
+		- Ne pas réinterroger le trombi si erreur 500 si une personne

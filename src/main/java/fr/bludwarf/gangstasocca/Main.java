@@ -4,7 +4,10 @@ import java.awt.Desktop;
 import java.io.File;
 import java.net.URI;
 
+import fr.bludwarf.commons.io.FileUtils;
+import fr.bludwarf.gangstasocca.ical.Meeting;
 import fr.bludwarf.gangstasocca.output.MatchWriter;
+import fr.bludwarf.gangstasocca.output.MeetingWriter;
 
 public class Main
 {
@@ -33,5 +36,19 @@ public class Main
 		final Desktop desktop = Desktop.getDesktop();
 		desktop.mail(new URI(match.getMail()));
 		desktop.open(outFile);
+		
+		
+		
+		final GangstaSoccaProperties props = GangstaSoccaProperties.getInstance();
+		
+		// Création d'un meeting Outlook
+		final File ical = new File(props.getString("ical.file"));
+		final String orga = props.getString("match.orga");
+		final Meeting meeting = new Meeting(match.getDate(), match.getDateFin());
+		meeting.setParticipants(match.getEmails());
+		meeting.setOrga(orga);
+		meeting.setTitre(match.getTitre());
+		meeting.setDescription(props.getString("ical.description"));
+		FileUtils.writeStringToFile(ical, MeetingWriter.buildCalendar(meeting));
 	}
 }

@@ -25,7 +25,15 @@ public class Stats
 
 	public Stats(Matches matches)
 	{
-		this.matches = matches;
+		// On ne fait des stats que sur les matches joués
+		this.matches = new Matches();
+		for (final Match match : matches)
+		{
+			if (match.aÉtéJoué())
+			{
+				this.matches.add(match);
+			}
+		}
 	}
 	
 	public int getEloActuel(Joueur joueur)

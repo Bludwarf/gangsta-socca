@@ -29,7 +29,7 @@ public class Matches extends ElementXML<TreeSet<Match>> implements Iterable<Matc
 	 * Matches triés par date
 	 */
 	@ElementList(inline = true, entry = "match")
-	ArrayList<Match> matches;
+	ArrayList<Match> matches = new ArrayList<Match>();
 
 	@Override
 	public void fromObject(TreeSet<Match> obj) throws Exception
@@ -91,6 +91,11 @@ public class Matches extends ElementXML<TreeSet<Match>> implements Iterable<Matc
 	public Match last()
 	{
 		return matches.get(matches.size() - 1);
+	}
+
+	public boolean add(Match match)
+	{
+		return matches.add(match);
 	}
 
 }

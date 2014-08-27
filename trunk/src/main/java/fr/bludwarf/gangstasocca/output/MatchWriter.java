@@ -75,6 +75,7 @@ public class MatchWriter
 		
 		// Dwiches
 		sb = new StringBuilder();
+		int nbSand = 0;
 		final Map<Sandwich, Integer> sandwiches = match.getSandwiches();
 		for (final Sandwich s : sandwiches.keySet())
 		{
@@ -82,11 +83,15 @@ public class MatchWriter
 			sb.append(String.format("<li><b>%s</b> x %s</li>",
 				nb,
 				s.getNom()));
+			nbSand += nb;
 		}
 		props.setProperty("sandwiches.html.li", sb.toString());
 		
 		props.setProperty("joueurs.communicator", match.getCommunicator());
 		props.setProperty("joueurs.mail", match.getMail());
+		
+		// Nb de sandwiches
+		props.setProperty("sandwiches.nb", Integer.toString(nbSand));
 		
 		return writeProchainMatchHTML(props, template);
 	}

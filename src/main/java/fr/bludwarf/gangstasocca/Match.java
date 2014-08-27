@@ -1,8 +1,9 @@
 package fr.bludwarf.gangstasocca;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -10,6 +11,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
@@ -74,23 +76,6 @@ public class Match implements Comparable<Match>
 		{
 			return getNom();
 		}
-		
-		/**
-		 * @param eloAprès ELO après le match
-		 */
-		@Attribute(name = "elo-après", required = false)
-		public void setEloAprès(double eloAprès) throws Exception
-		{
-			this.eloAprès = eloAprès;
-			getStats().setEloAprès(getMatch(), this, eloAvant);
-		}
-
-		@Attribute(name = "elo-après", required = false)
-		// FIXME : ne pas faire de write sur cet attribut si le match n'a pas été joué
-		public double getEloAprès() throws Exception
-		{
-			return getStats().getEloAprès(getMatch(), this);
-		}
 
 		/**
 		 * @return
@@ -117,6 +102,23 @@ public class Match implements Comparable<Match>
 			return getStats().getEloAvant(getMatch(), this);
 		}
 		
+		/**
+		 * @param eloAprès ELO après le match
+		 */
+		@Attribute(name = "elo-après", required = false)
+		public void setEloAprès(double eloAprès) throws Exception
+		{
+			this.eloAprès = eloAprès;
+			getStats().setEloAprès(getMatch(), this, eloAvant);
+		}
+
+		@Attribute(name = "elo-après", required = false)
+		// FIXME : ne pas faire de write sur cet attribut si le match n'a pas été joué
+		public double getEloAprès() throws Exception
+		{
+			return getStats().getEloAprès(getMatch(), this);
+		}
+		
 		public void setMatch(Match match)
 		{
 			this.match = match;
@@ -134,7 +136,7 @@ public class Match implements Comparable<Match>
 	@ElementList(name = "joueurs", entry = "joueur")
 	private void setJoueursXML(ArrayList<JoueurXML> joueursXML)
 	{
-		this.joueursXML = new HashMap<String, Match.JoueurXML>(joueursXML.size());
+		this.joueursXML = new LinkedHashMap<String, Match.JoueurXML>(joueursXML.size());
 		for (final JoueurXML joueur : joueursXML)
 		{
 			this.joueursXML.put(joueur.getNom(), joueur);
@@ -145,7 +147,7 @@ public class Match implements Comparable<Match>
 	private void setJoueursXML(Set<Joueur> joueurs)
 	{
 		LOG.debug(String.format("setJoueurXML(%s)", joueurs));
-		this.joueursXML = new HashMap<String, Match.JoueurXML>(joueurs.size());
+		this.joueursXML = new LinkedHashMap<String, Match.JoueurXML>(joueurs.size());
 		for (final Joueur joueur : joueurs)
 		{
 			final Match.JoueurXML joueurXML = new Match.JoueurXML(joueur);
@@ -160,7 +162,7 @@ public class Match implements Comparable<Match>
 	{
 		if (joueursXML == null)
 		{
-			joueursXML = new HashMap<String, Match.JoueurXML>();
+			joueursXML = new LinkedHashMap<String, Match.JoueurXML>();
 		}
 		return new ArrayList<Match.JoueurXML>(joueursXML.values());
 	}
@@ -172,11 +174,20 @@ public class Match implements Comparable<Match>
 
 	private StatsMatch stats;
 
+	private Date _dateFin;
+
+	
+	/**
+	 * @param doodle
+	 * @param date fixe l'heure en fonction de match.date.hh et match.date.mm
+	 */
 	public Match(@Attribute(name="doodle") final String doodle,
 			   	 @Attribute(name="date")   final Date date)
 	{
 		this.doodle = doodle;
-		_date = date;
+		final Date[] dates = setMidi(date);
+		_date = dates[0];
+		_dateFin = dates[1];
 	}
 	
 	public void setJoueurs(Set<Joueur> joueurs)
@@ -262,6 +273,7 @@ public class Match implements Comparable<Match>
 
 	public boolean contains(Joueur joueur)
 	{
+		if (joueurs == null) return false;
 		return joueurs.contains(joueur);
 	}
 	
@@ -278,6 +290,10 @@ public class Match implements Comparable<Match>
 		{
 			joueur.setMatch(this);
 		}
+		
+		final Date[] dates = setMidi(_date);
+		_date = dates[0];
+		_dateFin = dates[1];
 	}
 
 	public Joueur getJoueur(String pseudo)
@@ -403,5 +419,32 @@ public class Match implements Comparable<Match>
 	public boolean aÉtéJoué()
 	{
 		return joué;
+	}
+
+	public Date getDateFin()
+	{
+		if (_dateFin == null)
+		{
+			
+			_dateFin = DateUtils.addHours(getDate(), 2);
+		}
+		return _dateFin;
+	}
+	
+	public static Date[] setMidi(final Date date)
+	{
+		final Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		
+		final GangstaSoccaProperties props = GangstaSoccaProperties.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 	props.getInt("match.heure.hh"));
+		cal.set(Calendar.MINUTE, 		props.getInt("match.heure.mm"));
+		final Date deb = cal.getTime();
+		
+		cal.set(Calendar.HOUR_OF_DAY, 	props.getInt("match.heureFin.hh"));
+		cal.set(Calendar.MINUTE, 		props.getInt("match.heureFin.mm"));
+		final Date fin = cal.getTime();
+		
+		return new Date[]{deb, fin};
 	}
 }

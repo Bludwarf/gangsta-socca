@@ -2,8 +2,14 @@
 
 VERSIONS :
 
+	2.4 :
+		- Génération d'un Meeting Outlook
+
 	2.3 :
 		- Repo des matches
+		- Accents mal écrit mais bien récupéré du Doodle (exemple "Xavì")
+			- S'affiche bien en JUnit mais voir si Console en UTF-8 ? => /GangstaSocca/src/test/java/fr/bludwarf/gangstasocca/DoodleConnectorTest.java
+		- Afficher le nombre de sandwiches comme le nombre de joueurs
 
 	2.2 :
 		- Génération HTML du prochain match

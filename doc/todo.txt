@@ -1,5 +1,6 @@
 TODO
 =====
+	- Quand les joueurs changent, la mise à jour se fait mal dans matches.xml (ex : Matt La Rage et Antoine absent du 26/09)
 	- Elo-avant incorrect pour un match par encore joué
 	- Afficher la date de la génération dans prochainMatch.txt
 	- Aller chercher les photos de chaque joueur pour la page HTML

@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Gangsta Socca (maquette)</title>
+	
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<style type="text/css">
+	
+		body {
+			font-family: Calibri, Arial, sans-serif;
+			font-size: 11pt;
+		}
+		
+		.h3-wrapper {
+			background: rgba(0,0,0,0.25);
+			padding: 1em;
+			margin-bottom: 1em;
+		}
+		
+		.h3-wrapper h3 {
+			margin-top: 0;
+		}
+		
+		h1,h2,h3,h4 {
+			/*color: white;
+			text-shadow: 0 0 10px black;
+			background: rgba(0,0,0,0.25);*/
+		}
+		
+		h1 {
+			/*text-align: center;*/
+			/*padding: 0.5em;*/
+			margin: 0;
+			font-size: 
+		}
+		
+		h2 {
+			/*padding: 0.5em;*/
+		}
+		
+		.liste {
+			display : table;
+			table-layout: fixed;
+			height : 100%;
+			padding: 0;
+			
+			border: solid 0.5em white;
+			border-radius: 0.5em;
+			background: url(http://home1.org/wp-content/uploads/2013/03/football-field-grass-background.jpg);
+			background-size: 25%;
+		}
+		
+		.liste li {
+			display : table-cell;
+			height:100%;
+			
+			text-align: center;
+			min-height: 1em;
+		}
+		
+		.joueur {
+			background: white;
+			border: solid 0.25em black;
+			border-radius: 1em;
+			box-shadow: 1px 1px 1em black;
+			margin: 1em;
+			color: black;
+		}
+		
+		li:hover .joueur {
+			background-color: #ACF;
+			cursor: pointer;
+		}
+		
+		.joueur:active,
+		.joueur-selected,
+		.joueur-selected:hover {
+			background-color: orange;
+		}
+		
+			.liste li img {
+				border: solid 0.25em black;
+				border-width: 0.25em 0;
+				width: 100%;
+				cursor: url(http://blackbearwv.com/wp-content/themes/blackbear/images/phone.png) 19 20, pointer;
+			}
+		
+			.liste li .num,
+			.liste li .pseudo {
+				font-weight: bold;
+			}
+		
+			.liste li .num {
+				font-size: 2em;
+			}
+		
+			.liste li .pseudo {
+				padding: 0.25em 0.1em;
+			}
+			
+		li .com {
+			margin: 1em;
+			width: 200px;
+			text-shadow: 0 0 20px black;
+		}
+			
+		li:hover .com {
+			text-shadow: none;
+		}
+		
+		ul.com li:hover,
+		ol.com li:hover{
+			background: white;
+			color: black;
+			cursor: pointer;
+		}
+			
+		.sandwiches {
+			font-size: 1.25em;
+			text-shadow: 0 0 20px black;
+		}
+		
+	</style>
+	
+</head>
+<body>
+
+	<h1>Prochain match : ven. 7 mars</h1>	
+
+	<h2>Liste des 2 joueurs [<a href="im:<sip:babacar.ndiaye@capgemini.com><sip:mathieu.lavigne@capgemini.com>">communicator</a>] [<a href="mailto:babacar.ndiaye@capgemini.com;mathieu.lavigne@capgemini.com?subject=%5BSoccer%5D%5BMidi%5D%20Match%20du%20ven.%207%20mars">mail</a>]</h2>
+	
+	<ol>
+		<li><a href="sip:babacar.ndiaye@capgemini.com"><span class="pseudo">Babs</span></a></li><li><a href="sip:mathieu.lavigne@capgemini.com"><span class="pseudo">Matt La Rage</span></a></li>
+	</ol>
+
+	<h2>Sandwiches</h2>
+	
+	<ul>
+		<li><b>1</b> x Poulet</li><li><b>1</b> x Thon</li>
+	</ul>
+
+	<!-- Fichier utilisateur : GangstaSocca-custom.htm -->
+	<h2>Infos</h2>
+	
+	<ul>
+		<li><a href="http://www.doodle.com/uvbbrna677dfbw7e">Doodle</a></li>
+		<li><a href="http://soccer5.fr/rennes-cap-malo/Soccer5.php">Soccer5 Cap Malo</a> : 02 99 133 133</li>
+		<li><a href="http://soccer5.fr/rennes-cap-malo/tarifs.php">Réservation en ligne</a></li>
+		<li><a href="http://www.dcode.fr/tirage-au-sort-nombre-aleatoire">Site utilisé pour tirage</a></li>
+	</ul>
+	<!-- Fin du fichier utilisateur : GangstaSocca-custom.htm -->
+
+</body>
+</html>

@@ -1,0 +1,198 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fr.bludwarf</groupId>
+	<artifactId>gangsta-socca</artifactId>
+	<version>2.5</version>
+	<name>Maitrise des résa de Soccer 5 façon Gansta</name>
+
+	<properties>
+		<sourceEncoding>UTF-8</sourceEncoding>
+	</properties>
+
+	<organization>
+		<name>BludCorp</name>
+		<url>https://code.google.com/u/bludwarf/</url>
+	</organization>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.3</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+
+
+			<!-- Génération d'un fichier EXE -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<shadedArtifactAttached>true</shadedArtifactAttached> <!-- Make the shaded artifact not the main one -->
+					<shadedClassifierName>shaded</shadedClassifierName> <!-- set the suffix to the shaded jar -->
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+				<artifactId>launch4j-plugin</artifactId>
+				<version>1.5.0.0</version>
+				<executions>
+
+					<!-- GUI -->
+					<execution>
+						<id>l4j-console</id>
+						<phase>package</phase>
+						<goals>
+							<goal>launch4j</goal>
+						</goals>
+						<configuration>
+							<headerType>console</headerType>
+							<outfile>target/GangstaSocca-${project.version}.exe</outfile>
+							<jar>target/${project.artifactId}-${project.version}-shaded.jar</jar> <!-- 'shaded' is the value set on shadedClassifierName above -->
+							<errTitle>App Err</errTitle>
+							<classPath>
+								<mainClass>fr.bludwarf.gangstasocca.Main</mainClass>
+							</classPath>
+							<icon>src/main/resources/icons/iconV2.ico</icon>
+							<jre>
+								<minVersion>1.5.0</minVersion>
+								<maxVersion>1.6.0</maxVersion>
+								<initialHeapSize>128</initialHeapSize>
+								<maxHeapSize>1024</maxHeapSize>
+							</jre>
+						</configuration>
+					</execution>
+
+				</executions>
+			</plugin>
+			<!-- /Génération d'un fichier EXE -->
+			
+			
+			<!-- Copie des fichiers pour l'utilisateur final -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>deploy</phase>
+						<configuration>
+							<tasks>
+								<copy todir="D:/Dropbox/Autres/Soccer" flatten="true">
+									<resources>
+										<file file="target/GangstaSocca-${project.version}.exe"/>
+										<file file="src/main/resources/prochainMatch.html.template"/>
+									</resources>
+								</copy>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>dropbox</id>
+			<url>https://dl.dropboxusercontent.com/u/34838159/mvn-repository/</url>
+		</repository>
+	</repositories>
+
+	<!-- https://code.google.com/p/peter-lavalle/wiki/MavenOnDropBox -->
+	<!-- Pour créer un repo Maven : https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide -->
+	<!-- Voir Skywarrior:pom.xml pour un exemple complet -->
+	<distributionManagement>
+		<repository>
+			<id>dropbox.repo</id>
+			<name>Repository Maven Dropbox</name>
+			<url>file:///D:/Dropbox/Public/mvn-repository</url>
+		</repository>
+		<snapshotRepository>
+			<id>dropbox.repo-dev</id>
+			<name>Repository Maven Dropbox (DEV)</name>
+			<url>file:///D:/Dropbox/Public/mvn-repository/snapshots</url>
+			<uniqueVersion>true</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.8</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.bludwarf</groupId>
+			<artifactId>commons</artifactId>
+			<version>1.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.bludwarf</groupId>
+			<artifactId>commons-test</artifactId>
+			<version>1.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.simpleframework</groupId>
+			<artifactId>simple-xml</artifactId>
+			<version>2.7</version>
+		</dependency>
+		<dependency>
+			<!-- jsoup HTML parser library @ http://jsoup.org/ -->
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.7.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20131018</version>
+		</dependency>
+		
+		<!-- Outlook -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>3.7</version>
+		</dependency>
+				
+	</dependencies>
+</project>

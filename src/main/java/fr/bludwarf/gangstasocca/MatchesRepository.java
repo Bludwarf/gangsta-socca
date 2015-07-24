@@ -11,6 +11,8 @@ public class MatchesRepository extends XMLRepository<TreeSet<Match>, Matches>
 	/** instance */
 	private static MatchesRepository _instance = null;
 	private Stats stats;
+	
+	// FIXME : pour les stats uniquement et pour le XML mais pas pour le métier !?
 	private Matches matches;
 
 	private MatchesRepository()
@@ -43,6 +45,8 @@ public class MatchesRepository extends XMLRepository<TreeSet<Match>, Matches>
 
 	public void add(Match match) throws Exception
 	{
+		// On remplace le match existant 
+		if (getElements().contains(match)) getElements().remove(match);
 		getElements().add(match);
 		// FIXME : màj stats
 	}
@@ -64,6 +68,16 @@ public class MatchesRepository extends XMLRepository<TreeSet<Match>, Matches>
 			matches.fromObject(getElements());;
 		}
 		return matches;
+	}
+
+	public int size() throws Exception
+	{
+		int n = 0;
+		for (final Match match : getElements())
+		{
+			++n;
+		}
+		return n;
 	}
 
 }

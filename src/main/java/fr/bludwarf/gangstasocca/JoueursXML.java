@@ -1,6 +1,7 @@
 package fr.bludwarf.gangstasocca;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -9,6 +10,7 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 import fr.bludwarf.commons.xml.ElementXML;
+import fr.bludwarf.gangstasocca.stats.Stats;
 
 @Root(name="joueurs")
 public class JoueursXML extends ElementXML<Set<Joueur>>
@@ -33,6 +35,16 @@ public class JoueursXML extends ElementXML<Set<Joueur>>
 		
 		@Attribute(required=false)
 		String email;
+		
+		@Attribute(required=false)
+		double elo = Stats.START_ELO;
+		
+		@Attribute(name = "dernier-match", required=false)
+		Date dernierMatch;
+		
+		@Attribute(name = "nb-matches")
+		int nbMatches = 0;
+		
 		
 		@ElementList(required=false, inline=true, entry="pseudo")
 		ArrayList<String> pseudos;

@@ -1,0 +1,308 @@
+{
+	"poll": {
+		"prettyUrl": "http://doodle.com/uvbbrna677dfbw7e",
+		"initiatorAvatar": "https://6a5edc300520d4037dd6-0732807511066685711db213ddc1d2df.ssl.cf2.rackcdn.com/2kpf9m292twq8mkt",
+		"showAds": true,
+		"optionsText": [
+			"ven. 03/04/15",
+			"mar. 07/04/15",
+			"ven. 10/04/15",
+			"mar. 14/04/15",
+			"ven. 17/04/15",
+			"mar. 21/04/15",
+			"ven. 24/04/15",
+			"mar. 28/04/15"
+		],
+		"skip": 0,
+		"type": "date",
+		"title": "Midi Soccer Mardi & Vendredi",
+		"example": false,
+		"exportPrintUrl": "/np/export/pdf?pollId=uvbbrna677dfbw7e&locale=fr_FR",
+		"features": {
+			"useCustomURL": false,
+			"extraInformation": false,
+			"useCustomLogo": false,
+			"quickReply": false,
+			"customTheme": false,
+			"useCalendars": false,
+			"requireAuth": false,
+			"hideAds": false,
+			"useSSL": false
+		},
+		"skips": [],
+		"exportPdfUrl": "/np/export/pdf?pollId=uvbbrna677dfbw7e&locale=fr_FR&download=true",
+		"multiDay": false,
+		"grantWrite": false,
+		"hasTimeZone": false,
+		"fcStartOfFirstOption": 1428062400,
+		"grantFollowStream": true,
+		"descriptionHTML": "Soccer Capgemini Capmalo",
+		"followEventsStream": false,
+		"id": "uvbbrna677dfbw7e",
+		"state": "OPEN",
+		"grantRead": true,
+		"exportExcelUrl": "/np/export/excel?pollId=uvbbrna677dfbw7e&locale=fr_FR",
+		"hasQOptions": true,
+		"participants": [{
+			"preferences": "nnyyynyy",
+			"meetMePage": "",
+			"emailHash": "1ac599e4b5830e9eac265721eb2a013b",
+			"name": "Mickael H (club)",
+			"userBehindParticipant": "7pf3u6atrewjdt6vwqcuhsvpup78lm92",
+			"id": "1459768562",
+			"avatar": "https://6a5edc300520d4037dd6-0732807511066685711db213ddc1d2df.ssl.cf2.rackcdn.com/56y4h7ga96zf9955",
+			"locked": true
+		},
+		{
+			"preferences": "yyyyyyyy",
+			"name": "Dany K(Club)",
+			"id": "786012825",
+			"locked": false
+		},
+		{
+			"preferences": "yyyyyyyy",
+			"name": "Romain R. (suédois)",
+			"id": "1233394210",
+			"locked": false
+		},
+		{
+			"preferences": "nnnnnnnn",
+			"name": "Patrice (thon)",
+			"id": "101327628",
+			"locked": false
+		},
+		{
+			"preferences": "yynnyynn",
+			"name": "Christian F (thon)",
+			"id": "2117485110",
+			"locked": false
+		},
+		{
+			"preferences": "yyyyyyyn",
+			"name": "Steph T.Silva (Thon)",
+			"id": "26182257",
+			"locked": false
+		},
+		{
+			"preferences": "nynynyny",
+			"name": "Mohamed F(Poulet)",
+			"id": "1119288370",
+			"locked": false
+		},
+		{
+			"preferences": "ynyyyyyy",
+			"meetMePage": "",
+			"emailHash": "1f6fe4aca3aed1a349cb01fe9e79f33d",
+			"name": "Matt LaRage (suédois)",
+			"userBehindParticipant": "te00dhqvwrxd8qsa86whuy97ian6v0gn",
+			"id": "703061570",
+			"avatar": "https://6a5edc300520d4037dd6-0732807511066685711db213ddc1d2df.ssl.cf2.rackcdn.com/57mgq43dd4i998kz",
+			"locked": false
+		},
+		{
+			"preferences": "ynnnnnnn",
+			"name": "Laurent LG",
+			"id": "1252012500",
+			"locked": false
+		},
+		{
+			"preferences": "ynnnnnnn",
+			"name": "Eddy Z1(Suédois)",
+			"id": "2020043218",
+			"locked": false
+		},
+		{
+			"preferences": "qqqqqqqq",
+			"meetMePage": "",
+			"emailHash": "a49b43b3c66c9569f166beb52583083b",
+			"name": "Magnan Olivier",
+			"userBehindParticipant": "ctqmf73fbd18i04zxgy7349ny7tlckgs",
+			"id": "1218539649",
+			"avatar": "https://6a5edc300520d4037dd6-0732807511066685711db213ddc1d2df.ssl.cf2.rackcdn.com/0eg9nmx1qzatn4l3d69j9up8ruu44ze2",
+			"locked": true
+		},
+		{
+			"preferences": "ynynnnyn",
+			"name": "David C. (Club)",
+			"id": "1190549787",
+			"locked": false
+		},
+		{
+			"preferences": "qqqqqqqq",
+			"name": "Morgan (jambon)",
+			"id": "1945722222",
+			"locked": false
+		},
+		{
+			"preferences": "yyynnyyn",
+			"name": "Daniel W",
+			"id": "606351397",
+			"locked": false
+		},
+		{
+			"preferences": "nynynynn",
+			"name": "Nico M (thon)",
+			"id": "109350028",
+			"locked": false
+		},
+		{
+			"preferences": "nnnnnnnn",
+			"name": "Lotfi (thon)",
+			"id": "646733684",
+			"locked": false
+		},
+		{
+			"preferences": "nyynynyn",
+			"name": "François (rien)",
+			"id": "1293168130",
+			"locked": false
+		},
+		{
+			"preferences": "qqqqqqqq",
+			"name": "Reda B (Poulet)",
+			"id": "1131049356",
+			"locked": false
+		},
+		{
+			"preferences": "ynynynyn",
+			"name": "Sylvain O. (poulet)",
+			"id": "582720595",
+			"locked": false
+		},
+		{
+			"preferences": "qqqqqqqq",
+			"name": "LAM Yasser(thon)",
+			"id": "1883758628",
+			"locked": false
+		},
+		{
+			"preferences": "nnynynyn",
+			"name": "Romain H(américain poulet)",
+			"id": "1796100531",
+			"locked": false
+		},
+		{
+			"preferences": "nnynnnnn",
+			"meetMePage": "",
+			"emailHash": "55af445e5f350cd7d150e7b9a27eee72",
+			"name": "Archange AZEUGO",
+			"userBehindParticipant": "vf4ufyfmoa70lr9sbxrha05yvrh6sz6c",
+			"id": "1540162893",
+			"avatar": "https://6a5edc300520d4037dd6-0732807511066685711db213ddc1d2df.ssl.cf2.rackcdn.com/1u9btck1c2akgsd9hscrpelvk8s7djcs",
+			"locked": true
+		},
+		{
+			"preferences": "nnnnnnnn",
+			"name": "Gurwan D. ( Poulet)",
+			"id": "507276125",
+			"locked": false
+		},
+		{
+			"preferences": "yynnnnnn",
+			"name": "Mathieu B.(Poulet)",
+			"id": "1627833963",
+			"locked": false
+		}],
+		"socialHookFacebook": "http://facebook.com/sharer.php?u=http%3A%2F%2Fdoodle.com%2Fuvbbrna677dfbw7e",
+		"comments": [],
+		"optionsHash": "a16d2c60fecd5662b953de852b9e58e0",
+		"socialHookTwitter": "http://twitter.com/share?text=Midi%20Soccer%20Mar...%20%7C%20Veuillez%20participer%20au%20sondage%20Doodle%20%3A&url=http%3A%2F%2Fdoodle.com%2Fuvbbrna677dfbw7e",
+		"initiatorName": "Mickael HAMON",
+		"fcEndOfLastOption": 1430308800,
+		"ads": [null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null],
+		"inviteesCount": 0,
+		"fcOptions": [{
+			"allDay": true,
+			"start": 1428062400,
+			"end": 1428148800,
+			"id": 0
+		},
+		{
+			"allDay": true,
+			"start": 1428408000,
+			"end": 1428494400,
+			"id": 1
+		},
+		{
+			"allDay": true,
+			"start": 1428667200,
+			"end": 1428753600,
+			"id": 2
+		},
+		{
+			"allDay": true,
+			"start": 1429012800,
+			"end": 1429099200,
+			"id": 3
+		},
+		{
+			"allDay": true,
+			"start": 1429272000,
+			"end": 1429358400,
+			"id": 4
+		},
+		{
+			"allDay": true,
+			"start": 1429617600,
+			"end": 1429704000,
+			"id": 5
+		},
+		{
+			"allDay": true,
+			"start": 1429876800,
+			"end": 1429963200,
+			"id": 6
+		},
+		{
+			"allDay": true,
+			"start": 1430222400,
+			"end": 1430308800,
+			"id": 7
+		}],
+		"location": {
+			"country": "FR",
+			"address": "Avenue du Phare du Grand Lejeon, Melesse, France",
+			"name": "Karting Cap Malo"
+		},
+		"lastActivity": "il y a 55 minutes",
+		"weightedOptionsHtml": [[["avril 2015",
+		"8",
+		""]],
+		[["ven. 3",
+		"1",
+		"d"],
+		["mar. 7",
+		"1",
+		"d"],
+		["ven. 10",
+		"1",
+		"d"],
+		["mar. 14",
+		"1",
+		"d"],
+		["ven. 17",
+		"1",
+		"d"],
+		["mar. 21",
+		"1",
+		"d"],
+		["ven. 24",
+		"1",
+		"d"],
+		["mar. 28",
+		"1",
+		""]]],
+		"byInvitation": false,
+		"category": "ausgang",
+		"optionsAvailable": "yyyyyyyy",
+		"levels": 2,
+		"socialHookEmail": "mailto:?subject=Midi%20Soccer%20Mardi%20%26%20Vendredi&body=Je%20souhaite%20vous%20inviter%20au%20sondage%20Doodle%20%C2%ABMidi%20Soccer%20Mardi%20%26%20Vendredi.%C2%BB%0A%0AVeuillez%20suivre%20le%20lien%20afin%20de%20participer%20au%20sondage%20%3A%0Ahttp%3A%2F%2Fdoodle.com%2Fuvbbrna677dfbw7e"
+	}
+}

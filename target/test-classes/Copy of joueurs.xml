@@ -1,0 +1,12 @@
+<joueurs doodle="http://www.doodle.com/uvbbrna677dfbw7e" email-organisateur="mathieu.lavigne@capgemini.com">
+   <joueur nom="Dany KWETE" email="dany.kwete@capgemini.com">
+      <pseudo>Dany K</pseudo>
+      <pseudo>Dany K.</pseudo>
+   </joueur>
+   <joueur nom="Jean-Pierre Bernard" email="jean-pierre.a.bernard@capgemini.com">
+      <pseudo>JPB</pseudo>
+   </joueur>
+   <joueur nom="Mickaël HAMON" email="mickael.hamon@capgemini.com">
+      <pseudo>Mika</pseudo>
+   </joueur>
+</joueurs>

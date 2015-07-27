@@ -67,9 +67,12 @@ public class MatchWriter
 		sb = new StringBuilder();
 		for (final Joueur j : match.getJoueurs())
 		{
-			sb.append(String.format("<li><a href=\"sip:%s\"><span class=\"pseudo\">%s</span></a></li>",
-				j.getEmail(),
-				j.getPseudoActuel()));
+			final Properties jProps = new Properties();
+			jProps.setProperty("pseudo", j.getPseudoActuel());
+			jProps.setProperty("email", j.getEmail());
+			jProps.setProperty("sandwich", j.getSandwich().getNom());
+			final String jContent = FileUtils.readTemplate("joueurs.html.li.template", jProps);
+			sb.append(jContent);
 		}
 		props.setProperty("joueurs.html.li", sb.toString());
 		

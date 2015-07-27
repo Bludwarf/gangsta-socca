@@ -1,0 +1,1 @@
+<li><a href=\"sip:${email}\"><span class=\"pseudo\">${pseudo}</span></a> : <i class="sandwich">${sandwich}</i></li>

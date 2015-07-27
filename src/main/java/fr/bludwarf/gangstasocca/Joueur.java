@@ -131,8 +131,15 @@ public class Joueur implements Comparable<Joueur>
 		_sandwich = sandwich;
 	}
 	
+	/**
+	 * @return Sandwich.PAS_DE_SANDWICH si aucun sandwich 
+	 */
 	public Sandwich getSandwich()
 	{
+		if (_sandwich == null)
+		{
+			_sandwich = Sandwich.PAS_DE_SANDWICH;
+		}
 		return _sandwich;
 	}
 

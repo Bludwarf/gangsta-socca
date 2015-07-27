@@ -9,7 +9,7 @@ public class MainTest
 {
 
 	@Test
-	@Ignore
+//	@Ignore
 	public void test() throws Exception
 	{
 		Main.main(null);

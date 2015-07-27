@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -18,7 +19,9 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Text;
 import org.simpleframework.xml.core.Commit;
+import org.simpleframework.xml.core.Persist;
 
+import fr.bludwarf.commons.StringUtils;
 import fr.bludwarf.commons.web.URLUtils;
 import fr.bludwarf.gangstasocca.json.DoodleJSONParser;
 import fr.bludwarf.gangstasocca.output.MatchWriter;
@@ -37,6 +40,9 @@ public class Match implements Comparable<Match>
 	@Attribute(required = false)
 	boolean joué = false;
 	
+	@Attribute(name = "diff-elo-rouges", required = false)
+	Double diffEloRouges = null;
+	
 	@Attribute
 	String doodle;
 	
@@ -48,33 +54,45 @@ public class Match implements Comparable<Match>
 	 * @author bludwarf@gmail.com
 	 */
 	@Root(name = "joueur")
-	private static class JoueurXML extends Joueur
+	public static class JoueurXML
 	{
+		Joueur joueur = null;
+		
 		/** Équipe rouge */
-		@Attribute
+		@Attribute(required = false)
 		protected boolean rouge = true;
 		
-		/** ELO avant */
-		protected double eloAvant = Stats.START_ELO;
+		@Text
+		String nom;
 		
-		protected double eloAprès = Stats.START_ELO;
+		/** ELO avant */
+		@Attribute(name = "elo-avant", required = false)
+		protected Double eloAvant = null;
+
+		@Attribute(name = "elo-après", required = false)
+		protected Double eloAprès = null;
 		
 		protected Match match;
 		
-		public JoueurXML(@Text String nom)
+		public JoueurXML()
 		{
-			super(nom);
+			
 		}
 		
 		public JoueurXML(Joueur joueur)
 		{
-			super(joueur.getNom());
+			this.joueur = joueur;
+			this.nom = joueur.getNom();
 		}
 
-		@Override
-		public String getPseudo()
+		public JoueurXML(String nom)
 		{
-			return getNom();
+			this.nom = nom;
+		}
+
+		public String getNom()
+		{
+			return nom;
 		}
 
 		/**
@@ -87,36 +105,58 @@ public class Match implements Comparable<Match>
 		}
 		
 		/**
+		 * @return le joueur réel (et pas seulement l'instance dans le XML car son pseudo peut changer)
+		 * @throws Exception 
+		 */
+		public Joueur getJoueur() throws Exception
+		{
+			if (joueur == null)
+			{
+				joueur = JoueursRepository.getInstance().getJoueurByPseudo(getNom());
+			}
+			return joueur;
+		}
+		
+		/**
 		 * @param eloAprès ELO avant le match
 		 * @throws Exception 
 		 */
-		@Attribute(name = "elo-avant", required = false)
+//		@Attribute(name = "elo-avant", required = false)
 		public void setEloAvant(double eloAvant)
 		{
 			this.eloAvant = eloAvant;
 		}
 
-		@Attribute(name = "elo-avant", required = false)
+//		@Attribute(name = "elo-avant", required = false)
+		@Deprecated // recalculerEloAvant
 		public double getEloAvant() throws Exception
 		{
-			return getStats().getEloAvant(getMatch(), this);
+			if (eloAvant != null) return eloAvant;
+			return getStats().getEloAvant(getMatch(), getJoueur());
+		}
+		
+		public double recalculerEloAvant() throws Exception
+		{
+			eloAvant = getStats().getEloAvant(getMatch(), getJoueur());
+			return eloAvant;
 		}
 		
 		/**
 		 * @param eloAprès ELO après le match
 		 */
-		@Attribute(name = "elo-après", required = false)
+//		@Attribute(name = "elo-après", required = false)
 		public void setEloAprès(double eloAprès) throws Exception
 		{
 			this.eloAprès = eloAprès;
-			getStats().setEloAprès(getMatch(), this, eloAvant);
+			getStats().setEloAprès(getMatch(), getJoueur(), eloAvant);
 		}
 
-		@Attribute(name = "elo-après", required = false)
+//		@Attribute(name = "elo-après", required = false)
 		// FIXME : ne pas faire de write sur cet attribut si le match n'a pas été joué
 		public double getEloAprès() throws Exception
 		{
-			return getStats().getEloAprès(getMatch(), this);
+			if (eloAprès != null) return eloAprès;
+			return getStats().getEloAprès(getMatch(), getJoueur());
 		}
 		
 		public void setMatch(Match match)
@@ -124,9 +164,23 @@ public class Match implements Comparable<Match>
 			this.match = match;
 		}
 		
-		public Match getMatch()
+		public Match getMatch() throws MatchInconnuException
 		{
+			if (match == null) throw new MatchInconnuException("Match inconnu pour le joueur " + this);
 			return match;
+		}
+		
+		@Persist
+		protected void persist()
+		{
+			if (eloAvant != null) eloAvant = Stats.roundElo(eloAvant);
+			if (eloAprès != null) eloAprès = Stats.roundElo(eloAprès);
+		}
+		
+		@Override
+		public String toString()
+		{
+			return nom;
 		}
 		
 	}
@@ -144,19 +198,24 @@ public class Match implements Comparable<Match>
 		}
 	}
 	
-	private void setJoueursXML(Set<Joueur> joueurs)
-	{
-		LOG.debug(String.format("setJoueurXML(%s)", joueurs));
-		this.joueursXML = new LinkedHashMap<String, Match.JoueurXML>(joueurs.size());
-		for (final Joueur joueur : joueurs)
-		{
-			final Match.JoueurXML joueurXML = new Match.JoueurXML(joueur);
-			this.joueursXML.put(joueur.getNom(), joueurXML);
-			joueurXML.setMatch(this);
-		}
-	}
+//	private void setJoueursXML(Set<Joueur> joueurs)
+//	{
+//		LOG.debug(String.format("setJoueurXML(%s)", joueurs));
+//		this.joueursXML = new LinkedHashMap<String, Match.JoueurXML>(joueurs.size());
+//		for (final Joueur joueur : joueurs)
+//		{
+//			final Match.JoueurXML joueurXML = new Match.JoueurXML(joueur);
+//			this.joueursXML.put(joueur.getNom(), joueurXML);
+//			joueurXML.setMatch(this);
+//		}
+//	}
 	
 
+	/**
+	 * @return
+	 * @deprecated Ne pas utiliser pour ajouter des joueurs
+	 */
+	@Deprecated
 	@ElementList(name = "joueurs", entry = "joueur")
 	private ArrayList<JoueurXML> getJoueursXML()
 	{
@@ -169,8 +228,6 @@ public class Match implements Comparable<Match>
 	
 	@Attribute(name = "date")
 	private Date _date;
-	
-	private Set<Joueur> joueurs;
 
 	private StatsMatch stats;
 
@@ -190,18 +247,33 @@ public class Match implements Comparable<Match>
 		_dateFin = dates[1];
 	}
 	
+//	public void setJoueurs(Set<Joueur> joueurs)
+//	{
+//		setJoueursXML(joueurs);
+//	}
+
 	public void setJoueurs(Set<Joueur> joueurs)
 	{
-		this.joueurs = joueurs;
-		setJoueursXML(joueurs);
+		joueursXML = new LinkedHashMap<String, Match.JoueurXML>(joueurs.size());
+		for (final Joueur joueur : joueurs)
+		{
+			add(joueur);
+		}
 	}
-
 
 	/**
 	 * @return dans l'ordre du doodle
+	 * @throws Exception 
 	 */
-	public Set<Joueur> getJoueurs()
+	public Set<Joueur> getJoueurs() throws Exception
 	{
+		Set<Joueur> joueurs = new LinkedHashSet<Joueur>(); // en linked pour garder l'ordre du Doodle
+		for (final JoueurXML joueurXml : getJoueursXML())
+		{
+			final Joueur joueur = JoueursRepository.getInstance().getJoueurByPseudo(joueurXml.getNom());
+			if (joueur == null) throw new JoueurInconnuException("Nom/pseudo inconnu : " + joueurXml.getNom());
+			joueurs.add(joueur);
+		}
 		return joueurs;
 	}
 	
@@ -221,20 +293,21 @@ public class Match implements Comparable<Match>
 	
 	/**
 	 * @return
+	 * @throws Exception 
 	 * 
 	 * @see Sandwich#getSandwiches(SortedSet)
 	 */
-	public Map<Sandwich, Integer> getSandwiches()
+	public Map<Sandwich, Integer> getSandwiches() throws Exception
 	{
 		return Sandwich.getSandwiches(getJoueurs());
 	}
 	
-	public String getCommunicator()
+	public String getCommunicator() throws Exception
 	{
 		return URLUtils.communicator(getEmails());
 	}
 	
-	public List<String> getEmails()
+	public List<String> getEmails() throws Exception
 	{
 		List<String> emails = new ArrayList<String>(getJoueurs().size());
 		for (final Joueur j : getJoueurs())
@@ -245,9 +318,10 @@ public class Match implements Comparable<Match>
 	}
 	
 	/**
-	 * @return mailto:*
+	 * @return mailto:
+	 * @throws Exception *
 	 */
-	public String getMail()
+	public String getMail() throws Exception
 	{
 		final String sujet = getTitre();
 		return URLUtils.mail(getEmails(), sujet);
@@ -271,22 +345,30 @@ public class Match implements Comparable<Match>
 		return MatchWriter.DF.format(getDate());
 	}
 
+	/**
+	 * Compare avec la liste des pseudos du joueur
+	 * @param joueur
+	 * @return
+	 */
 	public boolean contains(Joueur joueur)
 	{
-		if (joueurs == null) return false;
-		return joueurs.contains(joueur);
+		for (final JoueurXML joueurXml : getJoueursXML())
+		{
+			if (joueur.getNom().equals(joueurXml.getNom())  || joueur.getPseudos().contains(joueurXml.getNom())) return true;
+		}
+		return false;
 	}
 	
 	@SuppressWarnings("unused")
 	@Commit
 	private void callbackLoadXML() throws Exception
 	{
-		joueurs = new TreeSet<Joueur>();
-		joueurs.addAll(getJoueursXML());
+//		joueurs = new TreeSet<Joueur>();
+//		joueurs.addAll(getJoueurs());
 		doodle = getDoodle();
 		
 		// Lien match <-> joueur
-		for (final JoueurXML joueur : getJoueursXML())
+		for (final JoueurXML joueur : joueursXML.values())
 		{
 			joueur.setMatch(this);
 		}
@@ -296,9 +378,9 @@ public class Match implements Comparable<Match>
 		_dateFin = dates[1];
 	}
 
-	public Joueur getJoueur(String pseudo)
+	public Joueur getJoueur(String pseudo) throws Exception
 	{
-		return getJoueurXML(pseudo);
+		return getJoueurXML(pseudo).getJoueur();
 	}
 
 	public boolean joueurJoueRouge(String pseudo)
@@ -314,7 +396,6 @@ public class Match implements Comparable<Match>
 	{
 		return getJoueurXML(joueur).rouge;
 	}
-
 
 	private JoueurXML getJoueurXML(Joueur joueur)
 	{
@@ -446,5 +527,76 @@ public class Match implements Comparable<Match>
 		final Date fin = cal.getTime();
 		
 		return new Date[]{deb, fin};
+	}
+
+	public Double getEloAprès(Joueur joueur)
+	{
+		final JoueurXML jXml = getJoueurXML(joueur);
+		return jXml.eloAprès;
+	}
+
+	public void addJoueur(String nom)
+	{
+		final JoueurXML xml = new JoueurXML(nom);
+		xml.setMatch(this);
+		getJoueursXML();
+		joueursXML.put(nom, xml);
+	}
+
+	public void add(Joueur joueur)
+	{
+		System.out.println("ajout du joueur : " + joueur + " : psa = " + joueur.getPseudoActuel());
+		final JoueurXML xml = new JoueurXML(joueur);
+		xml.setMatch(this);
+		getJoueursXML();
+		joueursXML.put(joueur.getNom(), xml);
+	}
+	
+	@Persist
+	protected void persist() throws Exception
+	{
+		// Si match non joué on calcul quand même le ELO AVANT
+		if (!aÉtéJoué())
+		{
+			for (final JoueurXML joueur : joueursXML.values())
+			{
+				System.out.println("Calcul ELO : " + joueur.getNom());
+				joueur.recalculerEloAvant();
+			}
+			
+		}
+
+		else
+		{
+			// Elo équipe
+			List<JoueurXML> rouges = new ArrayList<Match.JoueurXML>();
+			List<JoueurXML> nonRouges = new ArrayList<Match.JoueurXML>();
+			diffEloRouges = 0.0;
+			for (final JoueurXML joueurXml : getJoueursXML())
+			{
+				if (joueurXml.rouge) {
+					rouges.add(joueurXml);
+					diffEloRouges += joueurXml.eloAvant;
+				}
+				else {
+					nonRouges.add(joueurXml);
+					diffEloRouges -= joueurXml.eloAvant;
+				}
+			}
+			
+			// Arrondi
+			diffEloRouges = Stats.roundElo(diffEloRouges);
+		}
+	}
+
+	public Double getDiffEloRouges()
+	{
+		return diffEloRouges;
+	}
+
+	public boolean estRouge(Joueur joueur)
+	{
+		final JoueurXML xml = getJoueurXML(joueur);
+		return xml.rouge;
 	}
 }

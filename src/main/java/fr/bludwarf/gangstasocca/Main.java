@@ -5,6 +5,7 @@ import java.io.File;
 import java.net.URI;
 
 import fr.bludwarf.commons.io.FileUtils;
+import fr.bludwarf.gangstasocca.exceptions.MatchDéjàJoué;
 import fr.bludwarf.gangstasocca.ical.Meeting;
 import fr.bludwarf.gangstasocca.output.MatchWriter;
 import fr.bludwarf.gangstasocca.output.MeetingWriter;
@@ -26,7 +27,16 @@ public class Main
 		final File outFile = MatchWriter.writeProchainMatchHTML(match, file);
 		
 		// Ajout du match
-		MatchesRepository.getInstance().add(match);
+		try
+		{
+			MatchesRepository.getInstance().add(match);
+		}
+		catch (MatchDéjàJoué e)
+		{
+			System.out.println("Le matche a été déjà joué alors on recalcule uniquement les stats");
+			rep.save();
+			return;
+		}
 		
 		rep.save();
 		

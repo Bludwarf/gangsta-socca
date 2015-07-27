@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import fr.bludwarf.gangstasocca.Joueur;
 import fr.bludwarf.gangstasocca.Match;
+import fr.bludwarf.gangstasocca.Match.JoueurXML;
 import fr.bludwarf.gangstasocca.Matches;
 
 public class Stats
@@ -36,7 +37,7 @@ public class Stats
 		}
 	}
 	
-	public int getEloActuel(Joueur joueur)
+	public int getEloActuel(Joueur joueur) throws Exception
 	{
 		final Date t0 = new Date();
 		final int elo = (int) Math.round(getEloAprès(matches.last(), joueur));
@@ -54,8 +55,9 @@ public class Stats
 	 * @param match
 	 * @param joueur
 	 * @return 1200 si match <code>null</code> (et pas nul ^^)
+	 * @throws Exception 
 	 */
-	public double getEloAprès(Match match, Joueur joueur)
+	public double getEloAprès(Match match, Joueur joueur) throws Exception
 	{
 		final Double savedElo = load(match, joueur);
 		if (savedElo != null) return savedElo;
@@ -84,13 +86,15 @@ public class Stats
 	{
 		if (!elosAprès.containsKey(match))
 		{
-			return null;
+			final Double xmlElo = match.getEloAprès(joueur);
+			if (xmlElo == null) return null;
+			save(match, joueur, xmlElo);
 		}
 		final Map<Joueur, Double> elosMatch = elosAprès.get(match);
 		return elosMatch.get(joueur);
 	}
 
-	public double getEloAvant(Match match, Joueur joueur)
+	public double getEloAvant(Match match, Joueur joueur) throws Exception
 	{
 		final Match matchPre = joueur.matchPrécédent(match, matches);
 		if (matchPre == null) return START_ELO;
@@ -102,14 +106,17 @@ public class Stats
 		return match.victoire(joueur);
 	}
 
-	private double We(Match match, Joueur joueur)
+	private double We(Match match, Joueur joueur) throws Exception
 	{
-		double dr = getEloEquipe(match, joueur, true) - getEloEquipe(match, joueur, false);
+		// diff rouge
+		Double dr = match.getDiffEloRouges();
+		if (dr != null && !match.estRouge(joueur)) dr = -dr; 
+		if (dr == null) dr = getEloEquipe(match, joueur, true) - getEloEquipe(match, joueur, false); // si aucune diff sauvegardée
 		return 1 / (Math.pow(10, -dr/400) + 1);
 	}
 
 	// Todo : résultat en cache
-	private double getEloEquipe(Match match, Joueur joueur, boolean ami)
+	public double getEloEquipe(Match match, Joueur joueur, boolean ami) throws Exception
 	{
 		double eloMoy = 0;
 		
@@ -148,5 +155,10 @@ public class Stats
 		{
 			return 1;
 		}
+	}
+	
+	public static double roundElo(double elo)
+	{
+		return Math.round(elo * 100) / 100.0;
 	}
 }

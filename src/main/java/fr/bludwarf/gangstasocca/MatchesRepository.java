@@ -3,6 +3,7 @@ package fr.bludwarf.gangstasocca;
 import java.util.TreeSet;
 
 import fr.bludwarf.commons.xml.XMLRepository;
+import fr.bludwarf.gangstasocca.exceptions.MatchDéjàJoué;
 import fr.bludwarf.gangstasocca.stats.Stats;
 
 public class MatchesRepository extends XMLRepository<TreeSet<Match>, Matches>
@@ -45,10 +46,27 @@ public class MatchesRepository extends XMLRepository<TreeSet<Match>, Matches>
 
 	public void add(Match match) throws Exception
 	{
-		// On remplace le match existant 
-		if (getElements().contains(match)) getElements().remove(match);
+		// On remplace le match existant s'il n'a pas été joué
+		if (getElements().contains(match)) {
+			if (getMatchSauvegardé(match).aÉtéJoué()) throw new MatchDéjàJoué("Match déjà joué (impossible à remplacer) : " + match);
+			getElements().remove(match);
+		}
 		getElements().add(match);
 		// FIXME : màj stats
+	}
+
+	private Match getMatchSauvegardé(Match match) throws Exception
+	{
+		for (final Match match_i : getElements())
+		{
+			if (match_i.equals(match)) return match_i;
+		}
+		return null;
+	}
+
+	public void remove(Match match) throws Exception
+	{
+		getElements().remove(match);
 	}
 
 	public Stats getStats() throws Exception

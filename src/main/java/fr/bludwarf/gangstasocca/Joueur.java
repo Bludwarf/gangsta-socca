@@ -270,7 +270,7 @@ public class Joueur implements Comparable<Joueur>
 		return stats;
 	}
 
-	public Set<Joueur> getEquipe(Match match)
+	public Set<Joueur> getEquipe(Match match) throws Exception
 	{
 		Set<Joueur> equipe = new LinkedHashSet<Joueur>();
 		for (final Joueur joueur : match.getJoueurs())
@@ -283,7 +283,7 @@ public class Joueur implements Comparable<Joueur>
 		return equipe;
 	}
 
-	public Set<Joueur> getEquipeAdverse(Match match)
+	public Set<Joueur> getEquipeAdverse(Match match) throws Exception
 	{
 		Set<Joueur> equipe = new LinkedHashSet<Joueur>();
 		for (final Joueur joueur : match.getJoueurs())

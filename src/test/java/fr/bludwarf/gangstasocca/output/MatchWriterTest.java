@@ -39,17 +39,15 @@ public class MatchWriterTest
 		final Match match = new Match("http://www.doodle.com/uvbbrna677dfbw7e", cal.getTime());
 		
 		// Joueurs
-		SortedSet<Joueur> joueurs = new TreeSet<Joueur>();
 		final Joueur j1 = new Joueur("Mathieu Lavigne");
 		j1.addPseudo("Matt La Rage"); // on prend le dernier pseudo
 		j1.setEmail("mathieu.lavigne@capgemini.com");
-		joueurs.add(j1);
+		match.add(j1);
 		final Joueur j2 = new Joueur("Babacar");
 		j2.addPseudo("King Babs"); // on prend le dernier pseudo
 		j2.addPseudo("Babs"); // on prend le dernier pseudo
 		j2.setEmail("babacar.ndiaye@capgemini.com");
-		joueurs.add(j2);
-		match.setJoueurs(joueurs);
+		match.add(j2);
 		
 		// Sandwiches
 		j1.setSandwich(SAND_THON);

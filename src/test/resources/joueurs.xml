@@ -99,4 +99,10 @@
    <joueur nom="cyril" email="cyril.loyer@capgemini.com">
       <pseudo>Cyril</pseudo>
    </joueur>
+   
+   
+   <joueur nom="Mathieu" email="mathieu.lavigne@capgemini.com">
+   </joueur>
+   <joueur nom="Martin" email="martin.lavigne@capgemini.com">
+   </joueur>
 </joueurs>

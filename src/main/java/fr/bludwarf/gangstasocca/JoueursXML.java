@@ -42,7 +42,7 @@ public class JoueursXML extends ElementXML<Set<Joueur>>
 		@Attribute(name = "dernier-match", required=false)
 		Date dernierMatch;
 		
-		@Attribute(name = "nb-matches")
+		@Attribute(name = "nb-matches", required = false)
 		int nbMatches = 0;
 		
 		

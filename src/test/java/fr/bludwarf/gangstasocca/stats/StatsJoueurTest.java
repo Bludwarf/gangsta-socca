@@ -3,6 +3,7 @@ package fr.bludwarf.gangstasocca.stats;
 import static fr.bludwarf.gangstasocca.MatchesTest.getMatches;
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import fr.bludwarf.gangstasocca.Joueur;
@@ -14,6 +15,7 @@ public class StatsJoueurTest
 	public static Joueur EDDY	 = MatchesTest.EDDY;
 
 	@Test
+	@Ignore // live test
 	public void testGetElo() throws Exception
 	{
 		final Stats stats = new Stats(getMatches()); 

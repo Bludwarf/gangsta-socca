@@ -125,7 +125,7 @@ public class DoodleConnector extends WebConnector
 		return _prochainMatch;
 	}
 	
-	public Set<Joueur> getJoueursProchainMatch() throws IOException, ParseException 
+	public Set<Joueur> getJoueursProchainMatch() throws Exception 
 	{
 		final Match match = getProchainMatch();
 		if (match == null)
@@ -156,20 +156,20 @@ public class DoodleConnector extends WebConnector
 		return ENCODING_UTF;
 	}
 	
-	public String getListeDeDiffusionProchainMatch() throws IOException, ParseException
+	public String getListeDeDiffusionProchainMatch() throws Exception
 	{
 		return Joueur.getListeDeDiffusion(
 			getJoueursProchainMatch());
 	}
 
-	public String getListeJoueursProchainMatch() throws IOException, ParseException
+	public String getListeJoueursProchainMatch() throws Exception
 	{
 //		return StringUtils.join(getJoueursProchainMatch(), IOUtils.LINE_SEPARATOR);
 		return Joueur.getListeNumerotee(
 			getJoueursProchainMatch());
 	}
 
-	public String getListeSandwichesProchainMatch() throws IOException, ParseException
+	public String getListeSandwichesProchainMatch() throws Exception
 	{
 		Map<Sandwich, Integer> dwiches = Sandwich.getSandwiches(
 			getJoueursProchainMatch());

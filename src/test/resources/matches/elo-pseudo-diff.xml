@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<matches nb="69" debut="2013-11-26T11:50:00+01:00" fin="2015-07-24T11:50:00+02:00">
+    <match score-rouges="-4" joué="true" doodle="http://www.doodle.com/uvbbrna677dfbw7e" date="2015-03-17T11:50:00+01:00">
+        <joueurs>
+            <joueur rouge="true" elo-avant="1200.0" elo-après="1300">Babs</joueur>
+            <joueur rouge="false">Archange</joueur>
+        </joueurs>
+    </match>
+    <match score-rouges="0" joué="false" doodle="http://www.doodle.com/uvbbrna677dfbw7e" date="2015-07-24T11:50:00+02:00">
+        <joueurs>
+            <joueur>Rivaldo</joueur><!-- Même joueur que Babs -->
+        </joueurs>
+    </match>
+</matches>

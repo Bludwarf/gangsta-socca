@@ -23,7 +23,7 @@ public class MatchWriter
 {
 	public static DateFormat DF = DoodleJSONParser.DF_OUT;
 	
-	public static void writeProchainMatch(final DoodleConnector con, File file) throws IOException, ParseException 
+	public static void writeProchainMatch(final DoodleConnector con, File file) throws Exception 
 	{
 		final String date = DF.format(con.getProchainMatch());
 		final StringBuilder sb = new StringBuilder();

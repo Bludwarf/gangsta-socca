@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.core.Persist;
 
 import fr.bludwarf.commons.xml.ElementXML;
 import fr.bludwarf.gangstasocca.stats.Stats;
@@ -37,13 +38,13 @@ public class JoueursXML extends ElementXML<Set<Joueur>>
 		String email;
 		
 		@Attribute(required=false)
-		double elo = Stats.START_ELO;
+		Double elo = null;
 		
 		@Attribute(name = "dernier-match", required=false)
 		Date dernierMatch;
 		
 		@Attribute(name = "nb-matches", required = false)
-		int nbMatches = 0;
+		Integer nbMatches = null;
 		
 		
 		@ElementList(required=false, inline=true, entry="pseudo")
@@ -115,6 +116,12 @@ public class JoueursXML extends ElementXML<Set<Joueur>>
 		}
 		
 		return obj;
+	}
+	
+	@Persist
+	protected void persist()
+	{
+		// TODO : stats : ELO et nb matches
 	}
 
 }

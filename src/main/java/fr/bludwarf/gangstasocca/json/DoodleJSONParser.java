@@ -147,7 +147,7 @@ public class DoodleJSONParser
 				cal.setTimeInMillis(milli);
 				final Date date = cal.getTime();
 				dates.add(date);
-				System.out.println("date = " + DF_OUT.format(date));
+				LOG.info("date = " + DF_OUT.format(date));
 			}
 			
 			_dates = dates;
@@ -204,7 +204,7 @@ public class DoodleJSONParser
 		{
 			if (now.getTime() <= date.getTime() || DateUtils.isSameDay(now, date))
 			{
-				System.out.println("Date du prochain match = " + DF_OUT.format(date));
+				LOG.info("Date du prochain match = " + DF_OUT.format(date));
 				return new Match(_url.toString(), date);
 			}
 		}

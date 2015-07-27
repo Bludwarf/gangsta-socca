@@ -4,6 +4,8 @@ import java.awt.Desktop;
 import java.io.File;
 import java.net.URI;
 
+import org.apache.log4j.Logger;
+
 import fr.bludwarf.commons.io.FileUtils;
 import fr.bludwarf.gangstasocca.exceptions.MatchDéjàJoué;
 import fr.bludwarf.gangstasocca.ical.Meeting;
@@ -12,6 +14,8 @@ import fr.bludwarf.gangstasocca.output.MeetingWriter;
 
 public class Main
 {
+	protected static Logger LOG = Logger.getLogger(Main.class);
+	
 	public static void main(final String[] args) throws Exception
 	{
 		final JoueursRepository rep = JoueursRepository.getInstance();
@@ -33,7 +37,7 @@ public class Main
 		}
 		catch (MatchDéjàJoué e)
 		{
-			System.out.println("Le matche a été déjà joué alors on recalcule uniquement les stats");
+			LOG.info("Le matche a été déjà joué alors on recalcule uniquement les stats");
 			rep.save();
 			return;
 		}

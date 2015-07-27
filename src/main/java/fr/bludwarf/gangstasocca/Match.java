@@ -182,6 +182,14 @@ public class Match implements Comparable<Match>
 		{
 			return nom;
 		}
+
+		public void reset(JoueurXML joueurAvant)
+		{
+			if (LOG.isDebugEnabled()) LOG.debug("fusion avec l'ancienne version du match de " + this);
+			rouge = joueurAvant.rouge;
+			eloAvant = joueurAvant.eloAvant;
+			eloAprès = joueurAvant.eloAprès;
+		}
 		
 	}
 	
@@ -408,9 +416,9 @@ public class Match implements Comparable<Match>
 		return null;
 	}
 
-	private JoueurXML getJoueurXML(String pseudo)
+	private JoueurXML getJoueurXML(String nom)
 	{
-		return joueursXML.get(pseudo);
+		return joueursXML.get(nom);
 	}
 	
 	public StatsMatch getStats()
@@ -545,7 +553,7 @@ public class Match implements Comparable<Match>
 
 	public void add(Joueur joueur)
 	{
-		System.out.println("ajout du joueur : " + joueur + " : psa = " + joueur.getPseudoActuel());
+		LOG.info("Ajout du joueur : " + joueur + " : pseudo = " + joueur.getPseudoActuel());
 		final JoueurXML xml = new JoueurXML(joueur);
 		xml.setMatch(this);
 		getJoueursXML();
@@ -558,10 +566,14 @@ public class Match implements Comparable<Match>
 		// Si match non joué on calcul quand même le ELO AVANT
 		if (!aÉtéJoué())
 		{
+			final String comment = "  recalcul ELO " + this + " : ";
 			for (final JoueurXML joueur : joueursXML.values())
 			{
-				System.out.println("Calcul ELO : " + joueur.getNom());
-				joueur.recalculerEloAvant();
+				if (joueur.eloAvant == null)
+				{
+					LOG.info(comment + joueur.getNom());
+					joueur.recalculerEloAvant();
+				}
 			}
 			
 		}
@@ -598,5 +610,23 @@ public class Match implements Comparable<Match>
 	{
 		final JoueurXML xml = getJoueurXML(joueur);
 		return xml.rouge;
+	}
+
+	/**
+	 * Récupère les informations à partir de la précédente version (Doodle) du match
+	 * @param ancienneVersion
+	 */
+	public void fusionnerDepuis(Match ancienneVersion)
+	{
+		// On remplace les infos des joueurs actuels uniquement
+		for (final String nom : joueursXML.keySet())
+		{
+			final JoueurXML joueurAvant = ancienneVersion.getJoueurXML(nom);
+			if (joueurAvant != null)
+			{
+				final JoueurXML joueurActuel = joueursXML.get(nom);
+				joueurActuel.reset(joueurAvant);
+			}
+		}
 	}
 }

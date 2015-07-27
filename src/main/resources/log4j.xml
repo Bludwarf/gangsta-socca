@@ -12,13 +12,22 @@
 		<param name="Threshold" value="INFO" />
 		<param name="Encoding" value="UTF-8" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{HH:mm:ss} %5p - %30.30C l.%-3L %20.20M - %m%n" />
+			<param name="ConversionPattern" value="%d{HH:mm:ss} %5p - %m%n" />
 		</layout>
 	</appender>
 
 	<!-- Fichier -->
-	<appender name="Fichier" class="org.apache.log4j.DailyRollingFileAppender">
+	<!-- <appender name="Fichier" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File" value="GangstaSocca.log" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{dd/MM/yyyy HH:mm:ss,SSS} %5p - %50.50C l.%-3L %30.30M - %m%n" />
+		</layout>
+	</appender> -->
+	<appender name="Fichier" class="org.apache.log4j.FileAppender">
+		<param name="file" value="GangstaSocca.log" />
+		<param name="immediateFlush" value="true"/>
+		<param name="threshold" value="debug"/>
+		<param name="append" value="false"/>
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{dd/MM/yyyy HH:mm:ss,SSS} %5p - %50.50C l.%-3L %30.30M - %m%n" />
 		</layout>

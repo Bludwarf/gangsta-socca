@@ -62,7 +62,7 @@ public class Stats
 		final Double savedElo = load(match, joueur);
 		if (savedElo != null) return savedElo;
 		final double elo = getEloAvant(match, joueur) + K * G(match, joueur) * (W(match, joueur) - We(match, joueur));
-		LOG.info(String.format("Après le %s : elo de %s = %s", match, joueur, elo));
+		if (LOG.isDebugEnabled()) LOG.debug(String.format("Après le %s : elo de %s = %s", match, joueur, elo));
 		save(match, joueur, elo);
 		return elo;
 	}

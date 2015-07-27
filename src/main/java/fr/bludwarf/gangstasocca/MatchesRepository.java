@@ -48,7 +48,14 @@ public class MatchesRepository extends XMLRepository<TreeSet<Match>, Matches>
 	{
 		// On remplace le match existant s'il n'a pas été joué
 		if (getElements().contains(match)) {
-			if (getMatchSauvegardé(match).aÉtéJoué()) throw new MatchDéjàJoué("Match déjà joué (impossible à remplacer) : " + match);
+			final Match ancienneVersion = getMatchSauvegardé(match);
+			
+			if (ancienneVersion.aÉtéJoué()) throw new MatchDéjàJoué("Match déjà joué (impossible à remplacer) : " + match);
+			
+			// Avant de le supprimer on fusionner les informations à conserver
+			match.fusionnerDepuis(ancienneVersion);
+			
+			// Puis on le supprime du repo
 			getElements().remove(match);
 		}
 		getElements().add(match);

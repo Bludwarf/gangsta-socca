@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
@@ -21,7 +20,6 @@ import org.simpleframework.xml.Text;
 import org.simpleframework.xml.core.Commit;
 import org.simpleframework.xml.core.Persist;
 
-import fr.bludwarf.commons.StringUtils;
 import fr.bludwarf.commons.web.URLUtils;
 import fr.bludwarf.gangstasocca.json.DoodleJSONParser;
 import fr.bludwarf.gangstasocca.output.MatchWriter;
@@ -31,7 +29,6 @@ import fr.bludwarf.gangstasocca.stats.StatsMatch;
 @Root(name = "match")
 public class Match implements Comparable<Match>
 {
-	
 	protected static Logger LOG = Logger.getLogger(Match.class);
 
 	@Attribute(name = "score-rouges")
@@ -57,6 +54,9 @@ public class Match implements Comparable<Match>
 	public static class JoueurXML
 	{
 		Joueur joueur = null;
+		
+		@Attribute(name = "inscrit-avant", required = false)
+		protected Date inscritAvant = null;
 		
 		/** Équipe rouge */
 		@Attribute(required = false)
@@ -162,6 +162,7 @@ public class Match implements Comparable<Match>
 		public void setMatch(Match match)
 		{
 			this.match = match;
+			if (this.inscritAvant == null) this.inscritAvant = match._lastmod;
 		}
 		
 		public Match getMatch() throws MatchInconnuException
@@ -189,6 +190,9 @@ public class Match implements Comparable<Match>
 			rouge = joueurAvant.rouge;
 			eloAvant = joueurAvant.eloAvant;
 			eloAprès = joueurAvant.eloAprès;
+			
+			if (LOG.isDebugEnabled()) LOG.debug("joueurAvant.inscritAvant = " + joueurAvant.inscritAvant);
+			if (joueurAvant.inscritAvant != null) inscritAvant = joueurAvant.inscritAvant;
 		}
 		
 	}
@@ -236,23 +240,31 @@ public class Match implements Comparable<Match>
 	
 	@Attribute(name = "date")
 	private Date _date;
+	
+	@Attribute(name = "lastmod", required = false)
+	private Date _lastmod;
 
 	private StatsMatch stats;
 
 	private Date _dateFin;
 
+	@Deprecated
+	protected Match()
+	{
+		
+	}
 	
 	/**
 	 * @param doodle
 	 * @param date fixe l'heure en fonction de match.date.hh et match.date.mm
 	 */
-	public Match(@Attribute(name="doodle") final String doodle,
-			   	 @Attribute(name="date")   final Date date)
+	public Match(final String doodle, final Date date)
 	{
 		this.doodle = doodle;
 		final Date[] dates = setMidi(date);
 		_date = dates[0];
 		_dateFin = dates[1];
+		_lastmod = new Date();
 	}
 	
 //	public void setJoueurs(Set<Joueur> joueurs)
@@ -580,24 +592,28 @@ public class Match implements Comparable<Match>
 
 		else
 		{
-			// Elo équipe
-			List<JoueurXML> rouges = new ArrayList<Match.JoueurXML>();
-			List<JoueurXML> nonRouges = new ArrayList<Match.JoueurXML>();
-			diffEloRouges = 0.0;
-			for (final JoueurXML joueurXml : getJoueursXML())
+			if (diffEloRouges == null)
 			{
-				if (joueurXml.rouge) {
-					rouges.add(joueurXml);
-					diffEloRouges += joueurXml.eloAvant;
+				// Elo équipe
+				List<JoueurXML> rouges = new ArrayList<Match.JoueurXML>();
+				List<JoueurXML> nonRouges = new ArrayList<Match.JoueurXML>();
+				diffEloRouges = 0.0;
+				for (final JoueurXML joueurXml : getJoueursXML())
+				{
+					if (joueurXml.eloAvant == null) throw new RuntimeException("Le ELO avant le " + this + " est vide pour " + joueurXml);
+					if (joueurXml.rouge) {
+						rouges.add(joueurXml);
+						diffEloRouges += joueurXml.eloAvant;
+					}
+					else {
+						nonRouges.add(joueurXml);
+						diffEloRouges -= joueurXml.eloAvant;
+					}
 				}
-				else {
-					nonRouges.add(joueurXml);
-					diffEloRouges -= joueurXml.eloAvant;
-				}
+				
+				// Arrondi
+				diffEloRouges = Stats.roundElo(diffEloRouges);
 			}
-			
-			// Arrondi
-			diffEloRouges = Stats.roundElo(diffEloRouges);
 		}
 	}
 

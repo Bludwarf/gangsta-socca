@@ -137,8 +137,16 @@ public class Match implements Comparable<Match>
 		
 		public double recalculerEloAvant() throws Exception
 		{
+			eloAvant = null;
 			eloAvant = getStats().getEloAvant(getMatch(), getJoueur());
 			return eloAvant;
+		}
+		
+		public double recalculerEloAprès() throws Exception
+		{
+			eloAprès = null;
+			eloAprès = getStats().getEloAprès(getMatch(), getJoueur());
+			return eloAprès;
 		}
 		
 		/**
@@ -613,6 +621,12 @@ public class Match implements Comparable<Match>
 				
 				// Arrondi
 				diffEloRouges = Stats.roundElo(diffEloRouges);
+				
+				// Calcul du elo après le match pour chaque joueur
+				for (final JoueurXML joueurXml : joueursXML.values())
+				{
+					joueurXml.recalculerEloAprès();
+				}
 			}
 		}
 	}

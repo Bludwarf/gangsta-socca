@@ -23,7 +23,7 @@ public class DoodleConnector extends WebConnector
 	protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger
 			.getLogger(DoodleConnector.class);
 //	public static String URL = "http://www.doodle.com/uvbbrna677dfbw7e";
-	public static String EMAIL_ORGANISATEUR = "mathieu.lavigne@capgemini.com";
+	public static String EMAIL_ORGANISATEUR = "mathieu.lavigne@mail.com";
 	
 	public static MapFormatter<Sandwich, Integer> DWICH_FORMATTER = new MapFormatter<Sandwich, Integer>() {
 

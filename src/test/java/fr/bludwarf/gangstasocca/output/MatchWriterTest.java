@@ -41,12 +41,12 @@ public class MatchWriterTest
 		// Joueurs
 		final Joueur j1 = new Joueur("Mathieu Lavigne");
 		j1.addPseudo("Matt La Rage"); // on prend le dernier pseudo
-		j1.setEmail("mathieu.lavigne@capgemini.com");
+		j1.setEmail("mathieu.lavigne@mail.com");
 		match.add(j1);
 		final Joueur j2 = new Joueur("Babacar");
 		j2.addPseudo("King Babs"); // on prend le dernier pseudo
 		j2.addPseudo("Babs"); // on prend le dernier pseudo
-		j2.setEmail("babacar.ndiaye@capgemini.com");
+		j2.setEmail("babacar.ndiaye@mail.com");
 		match.add(j2);
 		
 		// Sandwiches

@@ -1,108 +1,108 @@
-<joueurs doodle="http://www.doodle.com/uvbbrna677dfbw7e" email-organisateur="mathieu.lavigne@capgemini.com">
-<joueur nom="Ali" email="ali.gatgout@capgemini.com">
+<joueurs doodle="http://www.doodle.com/uvbbrna677dfbw7e" email-organisateur="mathieu.lavigne@mail.com">
+   <joueur nom="Ali" email="ali.gatgout@mail.com">
       <pseudo>Ali GT</pseudo>
    </joueur>
-   <joueur nom="Amine B" email="amine.belhaj@capgemini.com">
+   <joueur nom="Amine B" email="amine.belhaj@mail.com">
       <pseudo>Amine B</pseudo>
    </joueur>
-   <joueur nom="Archange" email="yannick-archange.azeugo-tchinda@capgemini.com">
+   <joueur nom="Archange" email="yannick-archange.azeugo-tchinda@mail.com">
       <pseudo>Geremi</pseudo>
    </joueur>
-   <joueur nom="Aziz" email="abdelaziz.ben-hamouda@capgemini.com">
+   <joueur nom="Aziz" email="abdelaziz.ben-hamouda@mail.com">
       <pseudo>Aziz</pseudo>
    </joueur>
-   <joueur nom="Christian Faye" email="christian.faye@capgemini.com">
+   <joueur nom="Christian Faye" email="christian.faye@mail.com">
       <pseudo>Christian F</pseudo>
    </joueur>
-   <joueur nom="Christophe Davoine" email="christophe.davoine@capgemini.com">
+   <joueur nom="Christophe Davoine" email="christophe.davoine@mail.com">
       <pseudo>Christophe D</pseudo>
       <pseudo>Christophe davoine</pseudo>
    </joueur>
-   <joueur nom="Daniel" email="daniel.winsou@capgemini.com"/>
-   <joueur nom="Dany" email="dany.kwete@capgemini.com">
+   <joueur nom="Daniel" email="daniel.winsou@mail.com"/>
+   <joueur nom="Dany" email="dany.kwete@mail.com">
       <pseudo>Dany K</pseudo>
       <pseudo>Dany K.</pseudo>
    </joueur>
-   <joueur nom="Eddy" email="eddy.boucka-nzamba@capgemini.com">
+   <joueur nom="Eddy" email="eddy.boucka-nzamba@mail.com">
       <pseudo>Eddy Z</pseudo>
    </joueur>
-   <joueur nom="Jean-Pierre" email="jean-pierre.a.bernard@capgemini.com">
+   <joueur nom="Jean-Pierre" email="jean-pierre.a.bernard@mail.com">
       <pseudo>JPB</pseudo>
    </joueur>
-   <joueur nom="Konan-Kan" email="konan-kan.kouame@capgemini.com">
+   <joueur nom="Konan-Kan" email="konan-kan.kouame@mail.com">
       <pseudo>Konan-Kan</pseudo>
    </joueur>
-   <joueur nom="Laurent" email="laurent.le-gruiec@capgemini.com">
+   <joueur nom="Laurent" email="laurent.le-gruiec@mail.com">
       <pseudo>Laurent LG</pseudo>
    </joueur>
-   <joueur nom="Lotfi" email="lotfi.a.saidi@capgemini.com">
+   <joueur nom="Lotfi" email="lotfi.a.saidi@mail.com">
       <pseudo>Lotfi</pseudo>
    </joueur>
-   <joueur nom="Magnan" email="babacar.ndiaye@capgemini.com">
+   <joueur nom="Magnan" email="babacar.ndiaye@mail.com">
       <pseudo>Magnan</pseudo>
    </joueur>
-   <joueur nom="Medoune" email="papa-medoune.diop@capgemini.com">
+   <joueur nom="Medoune" email="papa-medoune.diop@mail.com">
       <pseudo>Médoune</pseudo>
    </joueur>
-   <joueur nom="Mickaël" email="mickael.hamon@capgemini.com">
+   <joueur nom="Mickaël" email="mickael.hamon@mail.com">
       <pseudo>Mickael Hamon</pseudo>
       <pseudo>Mika</pseudo>
    </joueur>
-   <joueur nom="Mohamed" email="mohamed-el-mansour.fofana@capgemini.com">
+   <joueur nom="Mohamed" email="mohamed-el-mansour.fofana@mail.com">
       <pseudo>Mohamed F</pseudo>
    </joueur>
-   <joueur nom="Morgan" email="morgan.commault@capgemini.com">
+   <joueur nom="Morgan" email="morgan.commault@mail.com">
       <pseudo>Morgan</pseudo>
    </joueur>
-   <joueur nom="Nicolas M" email="nicolas.murigneux@capgemini.com">
+   <joueur nom="Nicolas M" email="nicolas.murigneux@mail.com">
       <pseudo>Nicolas M</pseudo>
    </joueur>
-   <joueur nom="Olivier" email="pierre-olivier.tchounga@capgemini.com">
+   <joueur nom="Olivier" email="pierre-olivier.tchounga@mail.com">
       <pseudo>Olivier T</pseudo>
    </joueur>
-   <joueur nom="Patrice" email="patrice.cuven@capgemini.com"/>
-   <joueur nom="Pierre Rinfray" email="pierre.rinfray@capgemini.com">
+   <joueur nom="Patrice" email="patrice.cuven@mail.com"/>
+   <joueur nom="Pierre Rinfray" email="pierre.rinfray@mail.com">
       <pseudo>Pierre R</pseudo>
    </joueur>
-   <joueur nom="Rachid" email="rachid.el-alaoui@capgemini.com">
+   <joueur nom="Rachid" email="rachid.el-alaoui@mail.com">
       <pseudo>Rachid</pseudo>
    </joueur>
-   <joueur nom="Raph" email="raphael.limbach@capgemini.com">
+   <joueur nom="Raph" email="raphael.limbach@mail.com">
       <pseudo>Raphaël Limbach</pseudo>
    </joueur>
-   <joueur nom="Rivaldo" email="babacar.ndiaye@capgemini.com">
+   <joueur nom="Rivaldo" email="babacar.ndiaye@mail.com">
       <pseudo>Babs</pseudo>
       <pseudo>Rivaldo</pseudo>
    </joueur>
-   <joueur nom="Romain" email="romain.rebreget@capgemini.com">
+   <joueur nom="Romain" email="romain.rebreget@mail.com">
       <pseudo>Romain</pseudo>
    </joueur>
-   <joueur nom="Soufiane" email="soufiane.elghariaoui@capgemini.com">
+   <joueur nom="Soufiane" email="soufiane.elghariaoui@mail.com">
       <pseudo>Soufiane</pseudo>
    </joueur>
-   <joueur nom="Stéphane" email="stephane.ongbwa@capgemini.com">
+   <joueur nom="Stéphane" email="stephane.ongbwa@mail.com">
       <pseudo>Steph T.Silva</pseudo>
    </joueur>
-   <joueur nom="Tarik" email="tarik.mnaoui@capgemini.com">
+   <joueur nom="Tarik" email="tarik.mnaoui@mail.com">
       <pseudo>Tarik</pseudo>
    </joueur>
-   <joueur nom="Thomas" email="thomas.retif@capgemini.com">
+   <joueur nom="Thomas" email="thomas.retif@mail.com">
       <pseudo>Thomas</pseudo>
    </joueur>
-   <joueur nom="XAVI" email="xavier.planat@capgemini.com">
+   <joueur nom="XAVI" email="xavier.planat@mail.com">
       <pseudo>Xavì</pseudo>
    </joueur>
-   <joueur nom="Youssef I" email="youssef.izoughar@capgemini.com">
+   <joueur nom="Youssef I" email="youssef.izoughar@mail.com">
       <pseudo>Youssef I</pseudo>
       <pseudo>Youssef Iz</pseudo>
    </joueur>
-   <joueur nom="cyril" email="cyril.loyer@capgemini.com">
+   <joueur nom="cyril" email="cyril.loyer@mail.com">
       <pseudo>Cyril</pseudo>
    </joueur>
    
    
-   <joueur nom="Mathieu" email="mathieu.lavigne@capgemini.com">
+   <joueur nom="Mathieu" email="mathieu.lavigne@mail.com">
    </joueur>
-   <joueur nom="Martin" email="martin.lavigne@capgemini.com">
+   <joueur nom="Martin" email="martin.lavigne@mail.com">
    </joueur>
 </joueurs>

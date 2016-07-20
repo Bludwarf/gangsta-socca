@@ -308,14 +308,24 @@ public class Joueur implements Comparable<Joueur>
 		return match.memeEquipe(joueur, this);
 	}
 
-	public TreeSet<Match> getMatches(Matches matches)
+	public TreeSet<Match> getMatches(Iterable<Match> matches)
+	{
+		return getMatches(matches, true);
+	}
+
+	/**
+	 * @param matches
+	 * @param matchsJoué uniquement les matches joués ?
+	 * @return
+	 */
+	public TreeSet<Match> getMatches(Iterable<Match> matches, boolean matchsJoué)
 	{
 		if (matchesJoués_ref == null || matchesJoués_ref != matches) // need refresh ?
 		{
 			matchesJoués = new TreeSet<Match>();
 			for (final Match match : matches)
 			{
-				if (this.aJoué(match))
+				if (!matchsJoué && match.contains(this) || this.aJoué(match))
 				{
 					matchesJoués.add(match);
 				}

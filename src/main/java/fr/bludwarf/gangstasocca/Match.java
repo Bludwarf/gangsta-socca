@@ -44,6 +44,7 @@ public class Match implements Comparable<Match>
 	String doodle;
 	
 	Map<String, JoueurXML> joueursXML;
+	Map<String, JoueurXML> remplaçantsXML;
 	
 	/**
 	 * Joueur pour ce match
@@ -217,6 +218,18 @@ public class Match implements Comparable<Match>
 			joueur.setMatch(this);
 		}
 	}
+
+	@SuppressWarnings("unused")
+	@ElementList(name = "remplaçants", entry = "joueur", required = false)
+	private void setRemplaçantsXML(ArrayList<JoueurXML> joueursXML)
+	{
+		this.remplaçantsXML = new LinkedHashMap<String, Match.JoueurXML>(joueursXML.size());
+		for (final JoueurXML joueur : joueursXML)
+		{
+			this.remplaçantsXML.put(joueur.getNom(), joueur);
+			joueur.setMatch(this); // TODO : inscrit mais remplaçant
+		}
+	}
 	
 //	private void setJoueursXML(Set<Joueur> joueurs)
 //	{
@@ -244,6 +257,21 @@ public class Match implements Comparable<Match>
 			joueursXML = new LinkedHashMap<String, Match.JoueurXML>();
 		}
 		return new ArrayList<Match.JoueurXML>(joueursXML.values());
+	}
+
+	/**
+	 * @return
+	 * @deprecated Ne pas utiliser pour ajouter des joueurs
+	 */
+	@Deprecated
+	@ElementList(name = "remplaçants", entry = "joueur", required = false)
+	private ArrayList<JoueurXML> getRemplaçantsXML()
+	{
+		if (remplaçantsXML == null)
+		{
+			remplaçantsXML = new LinkedHashMap<String, Match.JoueurXML>();
+		}
+		return new ArrayList<Match.JoueurXML>(remplaçantsXML.values());
 	}
 	
 	@Attribute(name = "date")
@@ -297,6 +325,22 @@ public class Match implements Comparable<Match>
 	{
 		Set<Joueur> joueurs = new LinkedHashSet<Joueur>(); // en linked pour garder l'ordre du Doodle
 		for (final JoueurXML joueurXml : getJoueursXML())
+		{
+			final Joueur joueur = JoueursRepository.getInstance().getJoueurByPseudo(joueurXml.getNom());
+			if (joueur == null) throw new JoueurInconnuException("Nom/pseudo inconnu : " + joueurXml.getNom());
+			joueurs.add(joueur);
+		}
+		return joueurs;
+	}
+
+	/**
+	 * @return dans l'ordre du doodle
+	 * @throws Exception 
+	 */
+	public Set<Joueur> getRemplaçants() throws Exception
+	{
+		Set<Joueur> joueurs = new LinkedHashSet<Joueur>(); // en linked pour garder l'ordre du Doodle
+		for (final JoueurXML joueurXml : getRemplaçantsXML())
 		{
 			final Joueur joueur = JoueursRepository.getInstance().getJoueurByPseudo(joueurXml.getNom());
 			if (joueur == null) throw new JoueurInconnuException("Nom/pseudo inconnu : " + joueurXml.getNom());

@@ -3,24 +3,29 @@ package fr.bludwarf.gangstasocca.output;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.commons.configuration.plist.ParseException;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.text.StrSubstitutor;
+import org.apache.log4j.Logger;
 
 import fr.bludwarf.commons.StringBuilder;
-import fr.bludwarf.commons.StringUtils;
 import fr.bludwarf.commons.io.FileUtils;
 import fr.bludwarf.gangstasocca.DoodleConnector;
+import fr.bludwarf.gangstasocca.GangstaSoccaProperties;
 import fr.bludwarf.gangstasocca.Joueur;
 import fr.bludwarf.gangstasocca.Match;
 import fr.bludwarf.gangstasocca.Sandwich;
 import fr.bludwarf.gangstasocca.json.DoodleJSONParser;
+import fr.bludwarf.gangstasocca.tirages.DeuxDerniersMatches;
+import fr.bludwarf.gangstasocca.tirages.TirageAuSort;
 
 public class MatchWriter
 {
+	protected static Logger LOG = Logger.getLogger(MatchWriter.class);
 	public static DateFormat DF = DoodleJSONParser.DF_OUT;
 	
 	public static void writeProchainMatch(final DoodleConnector con, File file) throws Exception 
@@ -62,10 +67,27 @@ public class MatchWriter
 		props.setProperty("doodle.url", match.getDoodle());
 
 		// Joueurs
-		props.setProperty("joueurs.nb", Integer.toString(match.getJoueurs().size()));
+		final Set<Joueur> joueursInscrits = match.getJoueurs();
+		final List<Joueur> joueurs; // sélectionnés
+		
+		// Tirage au sort des joueurs si besoin
+		final int nbJoueursMax = GangstaSoccaProperties.getInstance().getInt("match.nbJoueursMax");
+		if (joueursInscrits.size() > nbJoueursMax)
+		{
+			LOG.warn(String.format("Un tirage au sort est nécessaire pour choisir %s joueurs parmi les %s inscrits", nbJoueursMax, joueursInscrits.size()));
+			TirageAuSort tirage = new DeuxDerniersMatches();
+			tirage.tirer(nbJoueursMax, joueursInscrits);
+			joueurs = tirage.getJoueurs();
+		}
+		else
+		{
+			joueurs = new ArrayList<Joueur>(joueursInscrits);
+		}
+		
+		props.setProperty("joueurs.nb", Integer.toString(joueurs.size()));
 		
 		sb = new StringBuilder();
-		for (final Joueur j : match.getJoueurs())
+		for (final Joueur j : joueurs)
 		{
 			final Properties jProps = new Properties();
 			jProps.setProperty("pseudo", j.getPseudoActuel());

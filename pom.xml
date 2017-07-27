@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.bludwarf</groupId>
 	<artifactId>gangsta-socca</artifactId>
-	<version>2.6</version>
+	<version>2.8</version>
 	<name>Maitrise des résa de Soccer 5 façon Gansta</name>
 
 	<properties>

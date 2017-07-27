@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -60,7 +61,10 @@ public class DoodleConnector extends WebConnector
 	
 	public final String getDoodlePage() throws IOException
 	{
-		return get(getURL());
+		// Cookie pour rester dans l'ancienne version de Doodle
+		final Map<String, String> cookies = new HashMap<String, String>();
+		cookies.put("d-betaCode", "true");
+		return get(getURL(), cookies);
 	}
 	
 //	/**
@@ -94,7 +98,8 @@ public class DoodleConnector extends WebConnector
 		final String open  = GangstaSoccaProperties.getInstance().getString("doodle.data.pattern.open");
 		final String close = GangstaSoccaProperties.getInstance().getString("doodle.data.pattern.close");
 //		FileUtils.writeStringToFile(new File("doodle-2015.html"), getDoodlePage());
-		final String data = StringUtils.substringBetween(getDoodlePage(), open, close);
+		final String html = getDoodlePage();
+		final String data = StringUtils.substringBetween(html, open, close);
 		
 		if (StringUtils.isNotEmpty(data))
 		{
@@ -103,6 +108,7 @@ public class DoodleConnector extends WebConnector
 		}
 		else
 		{
+			org.apache.commons.io.FileUtils.writeStringToFile(new File("doodle.html"), html);
 			throw new ParseException("Impossible de trouver la valeur de la variable JSON \"doodleJS.data.poll\" sur la page Doodle : " + _url);
 		}
 	}
